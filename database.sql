@@ -25,6 +25,21 @@ ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS username VARCHAR(100) AFTER ful
 -- run create-admin.js with that email to give it a new password.
 UPDATE admin_users SET username = 'admin' WHERE email = 'admin@shagarchamber.com' AND username IS NULL;
 
+-- Admin login sessions (Next.js site). Only a hash of each login token is stored.
+CREATE TABLE IF NOT EXISTS admin_sessions (
+  token_hash CHAR(64) PRIMARY KEY,
+  admin_id INT NOT NULL,
+  expires_at DATETIME NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Failed admin logins per IP address, for the login attempt limit.
+CREATE TABLE IF NOT EXISTS login_attempts (
+  ip VARCHAR(64) PRIMARY KEY,
+  count INT NOT NULL DEFAULT 0,
+  first_at DATETIME NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS contact_messages (
   id INT AUTO_INCREMENT PRIMARY KEY,
   full_name VARCHAR(150) NOT NULL,
