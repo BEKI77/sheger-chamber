@@ -38,14 +38,67 @@ const supabase =
         ? createAdminClient()
         : null;
 
+// The bucket itself enforces the size limit and allowed types, so even a
+// signed upload link can't be used to store anything else.
+const BUCKET_SETTINGS = {
+    public: false,
+    fileSizeLimit: MAX_FILE_SIZE,
+    allowedMimeTypes: [...Object.keys(IMAGE_TYPES), ...Object.keys(CV_TYPES)]
+};
+
 let bucketReady = null;
 function ensureBucket() {
     bucketReady ??= supabase.storage.getBucket(BUCKET_NAME).then(async ({ error }) => {
-        if (!error) return;
-        const { error: createError } = await supabase.storage.createBucket(BUCKET_NAME, { public: false });
-        if (createError) console.error("Could not create storage bucket:", createError.message);
+        const { error: saveError } = error
+            ? await supabase.storage.createBucket(BUCKET_NAME, BUCKET_SETTINGS)
+            : await supabase.storage.updateBucket(BUCKET_NAME, BUCKET_SETTINGS);
+        if (saveError) {
+            bucketReady = null;
+            console.error("Could not set up storage bucket:", saveError.message);
+        }
     });
     return bucketReady;
+}
+
+const newFileName = (ext) => `${Date.now()}-${crypto.randomInt(1e9)}${ext}`;
+const STORED_NAME = /^\d{13}-\d{1,9}\.[a-z]{3,4}$/;
+
+// True when uploads can go straight from the browser to Supabase Storage
+export const directUploadsEnabled = () => Boolean(supabase);
+
+// Check a file the browser is about to upload ({ type, size }) and return a
+// one-time link that lets it upload that file directly to Storage.
+// Returns { filename, signedUrl }, or throws a 400 like checkUpload.
+export async function signUpload({ type, size }, allowed, typeMessage, folder) {
+    const ext = allowed[type];
+    if (!ext) throw new HttpError(400, typeMessage);
+    if (!(size > 0)) throw new HttpError(400, "The selected file is empty.");
+    if (size > MAX_FILE_SIZE) throw new HttpError(400, "File is too large. The maximum size is 5 MB.");
+
+    await ensureBucket();
+    const filename = newFileName(ext);
+    const { data, error } = await supabase.storage.from(BUCKET_NAME).createSignedUploadUrl(`${folder}/${filename}`);
+    if (error) {
+        console.error("Could not create upload link:", error.message);
+        throw new HttpError(500, "Could not prepare the upload. Please try again.");
+    }
+    return { filename, signedUrl: data.signedUrl };
+}
+
+// Confirm the browser really uploaded `filename` into `folder` with an allowed
+// type and size. Returns the file name, or throws a 400.
+export async function confirmUpload(filename, folder, allowed, missingMessage) {
+    const name = typeof filename === "string" ? filename : "";
+    const ext = name.slice(name.lastIndexOf("."));
+    if (!STORED_NAME.test(name) || !Object.values(allowed).includes(ext)) {
+        throw new HttpError(400, missingMessage);
+    }
+    const { data, error } = await supabase.storage.from(BUCKET_NAME).info(`${folder}/${name}`);
+    const type = data?.contentType || data?.metadata?.mimetype;
+    if (error || !data || !(data.size > 0) || data.size > MAX_FILE_SIZE || !allowed[type]) {
+        throw new HttpError(400, missingMessage);
+    }
+    return name;
 }
 
 // Check an uploaded File and return { file, ext }, or throw a 400.
@@ -61,7 +114,7 @@ export function checkUpload(file, allowed, typeMessage) {
 
 // Save a checked upload into `folder`; returns the stored file name.
 export async function saveUpload({ file, ext }, folder) {
-    const filename = `${Date.now()}-${crypto.randomInt(1e9)}${ext}`;
+    const filename = newFileName(ext);
     const buffer = Buffer.from(await file.arrayBuffer());
 
     if (supabase) {
