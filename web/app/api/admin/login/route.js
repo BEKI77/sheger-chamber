@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { eq, or } from "drizzle-orm";
+import { or, sql } from "drizzle-orm";
 import { db, schema } from "@/db";
 import { fail, json, readJson, route } from "@/lib/server/http";
 import {
@@ -30,7 +30,13 @@ export const POST = route(async (request) => {
     const [admin] = await db
         .select()
         .from(adminUsers)
-        .where(or(eq(adminUsers.username, identifier), eq(adminUsers.email, identifier)))
+        // Case-insensitive, like the old MySQL database
+        .where(
+            or(
+                sql`lower(${adminUsers.username}) = lower(${identifier})`,
+                sql`lower(${adminUsers.email}) = lower(${identifier})`
+            )
+        )
         .limit(1);
 
     if (!admin) {

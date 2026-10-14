@@ -1,16 +1,13 @@
-// drizzle-kit settings (optional tooling, e.g. `npx drizzle-kit studio`).
-// database.sql in the project root stays the way to create the database.
+// drizzle-kit settings. `npm run db:push` creates or updates the tables.
+// Creating tables needs a session-mode or direct connection (not the
+// transaction pooler), so DATABASE_MIGRATION_URL can override SUPABASE_DB_URL.
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
-    dialect: "mysql",
+    dialect: "postgresql",
     schema: "./db/schema.js",
+    out: "./drizzle",
     dbCredentials: {
-        host: process.env.DB_HOST,
-        port: Number(process.env.DB_PORT || 4000),
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME || "shagar_chamber",
-        ssl: process.env.DB_SSL === "false" ? undefined : { minVersion: "TLSv1.2" }
+        url: process.env.DATABASE_MIGRATION_URL || process.env.SUPABASE_DB_URL || process.env.DATABASE_URL
     }
 });

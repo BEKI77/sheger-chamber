@@ -1,5 +1,6 @@
-import { desc, getTableColumns } from "drizzle-orm";
+import { getTableColumns } from "drizzle-orm";
 import { db, schema } from "@/db";
+import { descNullsLast } from "@/lib/server/order";
 import { json, route } from "@/lib/server/http";
 import { requireAdmin } from "@/lib/server/session";
 
@@ -9,6 +10,6 @@ const { national_id, ...listColumns } = getTableColumns(members);
 
 export const GET = route(async () => {
     await requireAdmin();
-    const rows = await db.select(listColumns).from(members).orderBy(desc(members.created_at));
+    const rows = await db.select(listColumns).from(members).orderBy(descNullsLast(members.created_at));
     return json({ success: true, members: rows });
 });

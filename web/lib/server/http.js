@@ -57,6 +57,7 @@ export function clean(value) {
     return text ? text : null;
 }
 
-// Affected rows / insert id from a Drizzle mysql2 write result
-export const affectedRows = (result) => result[0]?.affectedRows ?? 0;
-export const insertId = (result) => result[0]?.insertId;
+// Number of rows an update/delete changed (postgres.js result count)
+export const affectedRows = (result) => result?.count ?? 0;
+// New row id from an insert ... .returning({ id })
+export const insertId = (rows) => rows[0]?.id;

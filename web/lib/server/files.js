@@ -1,12 +1,12 @@
 // Uploaded files (national ID photos, payment receipts, CVs).
-// With SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY set, files go to a private
+// With SUPABASE_URL and SUPABASE_SECRET_KEY set, files go to a private
 // Supabase Storage bucket (needed online: hosts like Vercel have no lasting
 // disk). Otherwise they are saved under UPLOAD_DIR (default ./uploads).
 import "server-only";
 import fs from "node:fs/promises";
 import path from "node:path";
 import crypto from "node:crypto";
-import { createClient } from "@supabase/supabase-js";
+import { createAdminClient } from "@supabase/server/core";
 import { HttpError } from "./http";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -30,11 +30,12 @@ const CONTENT_TYPES = {
     ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 };
 
+// Supabase admin client from @supabase/server: reads SUPABASE_URL and the
+// server-only secret key (SUPABASE_SECRET_KEY, sb_secret_...). The secret key
+// must never get a NEXT_PUBLIC_ name: those are sent to the browser.
 const supabase =
-    process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
-        ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
-              auth: { persistSession: false }
-          })
+    process.env.SUPABASE_URL && (process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SECRET_KEYS)
+        ? createAdminClient()
         : null;
 
 let bucketReady = null;

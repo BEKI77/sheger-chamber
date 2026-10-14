@@ -53,27 +53,30 @@ export const POST = route(async (request) => {
 
     let result;
     try {
-        result = await db.insert(members).values({
-            full_name: fields.fullName,
-            email: fields.email,
-            phone: fields.phone,
-            national_id: null,
-            national_id_front: frontName,
-            national_id_back: backName,
-            tin_number: text("tin") || null,
-            business_name: fields.businessName,
-            business_type: fields.businessSector,
-            business_category: fields.businessCategory,
-            address: fields.businessAddress,
-            business_description: fields.businessDescription,
-            membership_type: membershipType,
-            membership_fee: String(membershipFee),
-            payment_status: "Pending",
-            payment_method: fields.paymentMethod,
-            payment_receipt: receiptName
-        });
+        result = await db
+            .insert(members)
+            .values({
+                full_name: fields.fullName,
+                email: fields.email,
+                phone: fields.phone,
+                national_id: null,
+                national_id_front: frontName,
+                national_id_back: backName,
+                tin_number: text("tin") || null,
+                business_name: fields.businessName,
+                business_type: fields.businessSector,
+                business_category: fields.businessCategory,
+                address: fields.businessAddress,
+                business_description: fields.businessDescription,
+                membership_type: membershipType,
+                membership_fee: String(membershipFee),
+                payment_status: "Pending",
+                payment_method: fields.paymentMethod,
+                payment_receipt: receiptName
+            })
+            .returning({ id: members.id });
     } catch (error) {
-        if ((error.cause ?? error).code === "ER_DUP_ENTRY") {
+        if ((error.cause ?? error).code === "23505") {
             return fail(409, "This National ID is already registered.");
         }
         throw error;

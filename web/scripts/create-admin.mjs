@@ -2,8 +2,9 @@
 // (matched by email). Run in the web folder:  npm run create-admin
 import readline from "node:readline";
 import bcrypt from "bcryptjs";
-import mysql from "mysql2/promise";
-import { drizzle } from "drizzle-orm/mysql2";
+import postgres from "postgres";
+import { drizzle } from "drizzle-orm/postgres-js";
+import { sql } from "drizzle-orm";
 import { adminUsers } from "../db/schema.js";
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
@@ -39,32 +40,33 @@ if (password.length < 12) {
     process.exit(1);
 }
 
-const connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT || 4000),
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME || "shagar_chamber",
-    ssl: process.env.DB_SSL === "false" ? undefined : { minVersion: "TLSv1.2" }
-});
+const connectionString = process.env.SUPABASE_DB_URL || process.env.DATABASE_URL;
+if (!connectionString) {
+    console.error("SUPABASE_DB_URL is not set. Add it to .env.local (see .env.example).");
+    process.exit(1);
+}
+
+const client = postgres(connectionString, { prepare: false, max: 1 });
 
 try {
-    const db = drizzle(connection);
+    const db = drizzle(client);
     const passwordHash = await bcrypt.hash(password, 12);
     // A second run with the same email updates that admin instead of failing
-    const [result] = await db
+    const [saved] = await db
         .insert(adminUsers)
         .values({ full_name: fullName, username, email, password_hash: passwordHash, role: "admin", status: "Active" })
-        .onDuplicateKeyUpdate({
+        .onConflictDoUpdate({
+            target: adminUsers.email,
             set: { full_name: fullName, username, password_hash: passwordHash, status: "Active" }
-        });
+        })
+        .returning({ id: adminUsers.id, created: sql`(xmax = 0)` });
 
-    console.log(result.affectedRows === 1 ? "Admin account created." : "Existing admin updated with the new password.");
+    console.log(saved.created ? "Admin account created." : "Existing admin updated with the new password.");
     console.log("Username:", username);
     console.log("Email:", email);
 } catch (error) {
     console.error("Failed to save admin:", error.cause?.message || error.message);
     process.exitCode = 1;
 } finally {
-    await connection.end();
+    await client.end();
 }

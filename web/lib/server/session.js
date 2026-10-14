@@ -82,9 +82,24 @@ export async function destroySession() {
 
 /* ----- Failed login limit (per IP address) ----- */
 
+// The visitor's address, from the one header the host sets itself and a
+// visitor can't fake. Each host differs, so it's chosen by host:
+//  - Render (sets RENDER): Cloudflare's cf-connecting-ip, overwritten on every request
+//  - Vercel (sets VERCEL): x-vercel-forwarded-for
+//  - elsewhere: the last x-forwarded-for entry, the one the nearest proxy added
+// CLIENT_IP_HEADER overrides the choice for other hosts.
+function clientIpHeader() {
+    if (process.env.CLIENT_IP_HEADER) return process.env.CLIENT_IP_HEADER.toLowerCase();
+    if (process.env.RENDER) return "cf-connecting-ip";
+    if (process.env.VERCEL) return "x-vercel-forwarded-for";
+    return null;
+}
+
 export async function clientIp() {
     const h = await headers();
-    return (h.get("x-real-ip") || h.get("x-forwarded-for")?.split(",")[0] || "unknown").trim().slice(0, 64);
+    const name = clientIpHeader();
+    const value = name ? h.get(name) : h.get("x-forwarded-for")?.split(",").pop();
+    return (value?.trim() || "unknown").slice(0, 64);
 }
 
 const windowStart = () => new Date(Date.now() - LOGIN_WINDOW_MINUTES * 60 * 1000);
@@ -102,13 +117,16 @@ export async function loginBlocked(ip) {
 
 export async function recordFailedLogin(ip) {
     // Start a new window when the old one has expired, otherwise count up
+    const { loginAttempts } = schema;
+    const expired = sql`${loginAttempts.first_at} < ${windowStart().toISOString()}::timestamptz`;
     await db
-        .insert(schema.loginAttempts)
+        .insert(loginAttempts)
         .values({ ip, count: 1, first_at: new Date() })
-        .onDuplicateKeyUpdate({
+        .onConflictDoUpdate({
+            target: loginAttempts.ip,
             set: {
-                count: sql`IF(${schema.loginAttempts.first_at} < ${windowStart()}, 1, ${schema.loginAttempts.count} + 1)`,
-                first_at: sql`IF(${schema.loginAttempts.first_at} < ${windowStart()}, ${new Date()}, ${schema.loginAttempts.first_at})`
+                count: sql`CASE WHEN ${expired} THEN 1 ELSE ${loginAttempts.count} + 1 END`,
+                first_at: sql`CASE WHEN ${expired} THEN now() ELSE ${loginAttempts.first_at} END`
             }
         });
 }
