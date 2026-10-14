@@ -1,20 +1,21 @@
-HOW TO RUN SHAGAR CHAMBER (XAMPP + Node.js)
+HOW TO RUN SHAGAR CHAMBER
 
 The website, admin panel and API are one Next.js app in the "web" folder.
+The database and uploaded files are in Supabase.
 
-1. Open XAMPP Control Panel and start MySQL (and Apache for phpMyAdmin).
-2. Go to http://localhost/phpmyadmin -> Import -> choose database.sql -> Go.
-   (Safe to re-import on an existing database: it only adds what is missing.)
-3. In the "web" folder, copy .env.example to .env.local. For XAMPP set:
-      DB_HOST=127.0.0.1   DB_PORT=3306   DB_USER=root   DB_PASSWORD=   DB_SSL=false
-4. Open a terminal in the "web" folder and run:
+1. In the "web" folder, copy .env.example to .env.local and fill in
+   SUPABASE_URL, SUPABASE_SECRET_KEY and SUPABASE_DB_URL (see web/README.md
+   for where to find each one in the Supabase dashboard).
+2. Open a terminal in the "web" folder and run:
       npm install
+      npm run db:push
       npm run create-admin
-   Enter a username, email and password (12+ characters) for the admin.
-   Run it again with the same email any time to reset that admin's password.
-5. Start the site:
+   db:push creates the tables (safe to run again). create-admin asks for a
+   username, email and password (12+ characters); run it again with the same
+   email to reset that admin's password.
+3. Start the site:
       npm run dev
-6. Open in your browser:
+4. Open in your browser:
       http://localhost:3000/              (website)
       http://localhost:3000/admin/login   (admin)
 

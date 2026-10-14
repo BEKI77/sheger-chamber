@@ -6,13 +6,12 @@ messages and revenue tracking.
 
 ## Stack
 
-- **web/**: the current app. A Next.js site with the public pages, the admin panel
-  and the API (`web/app/api`), using Drizzle ORM for the database.
-  See [web/README.md](web/README.md) for running and hosting it.
-- **Database**: MySQL. That's XAMPP's MariaDB locally and TiDB Cloud online. The
-  schema is in `database.sql`.
-- **Uploads**: national ID scans, payment receipts and CVs go to a private Supabase
-  Storage bucket when Supabase is configured (needed online), otherwise to `web/uploads/`.
+- **web/**: a Next.js app with the public pages, the admin panel and the API
+  (`web/app/api`). See [web/README.md](web/README.md) for running and hosting it.
+- **Database**: Supabase Postgres, through Drizzle ORM (`web/db/schema.js`).
+  `npm run db:push` creates the tables.
+- **Uploads**: national ID scans, payment receipts and CVs are kept in a private
+  Supabase Storage bucket.
 
 ## Getting started
 
@@ -20,10 +19,10 @@ See [HOW-TO-RUN.txt](HOW-TO-RUN.txt) for local setup and [web/README.md](web/REA
 for hosting. In short:
 
 ```bash
-# 1. Import database.sql (phpMyAdmin -> Import)
 cd web
-cp .env.example .env.local   # 2. set your database settings
+cp .env.example .env.local   # 1. fill in your Supabase settings
 npm install
+npm run db:push              # 2. create the tables
 npm run create-admin         # 3. create your admin login
 npm run dev                  # 4. open http://localhost:3000
 ```
@@ -36,4 +35,5 @@ existing email gives that admin a new password. Admin logins are stored in the d
 
 ## Sensitive data
 
-`web/uploads/` holds real people's ID documents and CVs. It's in `.gitignore`. Don't copy it into zips, backups or chats you share.
+The Supabase bucket, and any local copies in `web/uploads/`, hold real people's ID
+documents and CVs. `web/uploads/` is in `.gitignore`. Never commit `web/.env.local`. Don't copy it into zips, backups or chats you share.
