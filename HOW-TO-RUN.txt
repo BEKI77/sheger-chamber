@@ -1,0 +1,28 @@
+HOW TO RUN SHAGAR CHAMBER (XAMPP + Node.js)
+
+1. Open XAMPP Control Panel and start MySQL (and Apache for phpMyAdmin).
+2. Go to http://localhost/phpmyadmin -> Import -> choose database.sql -> Go.
+   (Safe to re-import on an existing database: it adds anything missing,
+   such as the admin "username" column.)
+3. In the "backend" folder, copy .env.example to .env and set SESSION_SECRET
+   to a long random string. The other defaults work with XAMPP
+   (root user, empty password, port 3306, DB_SSL=false).
+4. Open a terminal in the "backend" folder and run:
+      npm install
+      node create-admin.js
+   Enter a username, email and password (12+ characters) for the admin.
+   Run it again with the same email any time to reset that admin's password.
+   (If your database still has the old default admin@shagarchamber.com
+   account, run it with that email now: its old password was published.)
+5. Start the server:
+      npm start
+   You should see: "Database connected successfully!"
+6. Open the site in your browser at:
+      http://localhost:5000/              (website)
+      http://localhost:5000/admin-login.html   (admin)
+   Log in with the username (or email) and password from step 4.
+
+IMPORTANT: Open the site from http://localhost:5000, not with Live Server.
+Live Server reloads the page whenever a file changes, which sent you back
+to the login page. (If you still use Live Server, the settings now ignore
+the backend folder.)
