@@ -102,10 +102,12 @@ export default function SiteFooter() {
                                     <i className="fas fa-location-dot"></i> <span>Addis Ababa, Ethiopia</span>
                                 </div>
                                 <div className="footer-contact-item">
-                                    <i className="fas fa-phone"></i> <span>+251 908 577 171</span>
+                                    <i className="fas fa-phone"></i> <span>
+                                        <a href="tel:+251908577171">+251 908 577 171</a>
+                                    </span>
                                 </div>
                                 <div className="footer-contact-item">
-                                    <i className="fas fa-envelope"></i> <span>info@shagarchamber.com</span>
+                                    <i className="fas fa-envelope"></i> <span>info@shagarchamber.org.et</span>
                                 </div>
                                 <div className="footer-contact-item">
                                     <i className="fas fa-clock"></i> <span>Mon – Fri: 8:30 AM – 5:30 PM</span>
@@ -120,9 +122,6 @@ export default function SiteFooter() {
                                     >
                                         <i className="fab fa-facebook-f"></i>
                                     </a>{" "}
-                                    <a href="#" aria-label="LinkedIn">
-                                        <i className="fab fa-linkedin-in"></i>
-                                    </a>{" "}
                                     <a
                                         href="https://t.me/shagarchamber1365"
                                         aria-label="Telegram"
@@ -130,9 +129,6 @@ export default function SiteFooter() {
                                         rel="noopener noreferrer"
                                     >
                                         <i className="fab fa-telegram"></i>
-                                    </a>{" "}
-                                    <a href="#" aria-label="Instagram">
-                                        <i className="fab fa-instagram"></i>
                                     </a>
                                 </div>
                             </div>
