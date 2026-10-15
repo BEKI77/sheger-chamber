@@ -2,7 +2,7 @@ import { db, schema } from "@/db";
 import { descNullsLast } from "@/lib/server/order";
 import { fail, insertId, json, route } from "@/lib/server/http";
 import { requireAdmin } from "@/lib/server/session";
-import { CV_TYPES, checkUpload, saveUpload } from "@/lib/server/files";
+import { readFormSubmission } from "@/lib/server/form-submission";
 
 const { jobApplications } = schema;
 
@@ -12,13 +12,11 @@ export const GET = route(async () => {
     return json({ success: true, applications: rows });
 });
 
-// Public: the job application form (multipart, with the CV file)
+// Public: the job application form, with the CV
+// (uploaded straight to Storage first, or included in the request)
 export const POST = route(async (request) => {
-    const form = await request.formData();
-    const text = (name) => {
-        const value = form.get(name);
-        return typeof value === "string" ? value.trim() : "";
-    };
+    const submission = await readFormSubmission(request, "job-application");
+    const text = submission.text;
 
     const jobTitle = text("jobTitle");
     const fullName = text("fullName");
@@ -29,10 +27,8 @@ export const POST = route(async (request) => {
     if (!jobTitle || !fullName || !email || !phone || !education) {
         return fail(400, "Job title, full name, email, phone and education are required.");
     }
-
-    const cv = checkUpload(form.get("cv"), CV_TYPES, "Only PDF, DOC and DOCX CV files are allowed.");
-    if (!cv) return fail(400, "Please upload your CV.");
-    const filename = await saveUpload(cv, "job-applications");
+    if (!submission.hasFile("cv")) return fail(400, "Please upload your CV.");
+    const { cv: filename } = await submission.storeFiles();
 
     const opportunityId = Number(text("opportunityId"));
     const result = await db

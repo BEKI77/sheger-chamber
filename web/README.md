@@ -5,7 +5,7 @@ The public website, the admin panel and the API in one Next.js app, with Supabas
 - **Pages**: `app/` (routes) and `components/` (page parts). Each stylesheet group has its own root layout (`app/(site)`, `app/(admin-*)`), so the pages look exactly like the original static site.
 - **API**: `app/api/**/route.js`, at the same `/api/...` addresses the site has always used.
 - **Database**: Supabase Postgres through [Drizzle ORM](https://orm.drizzle.team). The schema is in `db/schema.js`. Row Level Security is on for every table with no policies, so Supabase's public Data API can't read or change anything. Only this app's server can.
-- **Uploads** (ID photos, payment receipts, CVs): a private Supabase Storage bucket, reached through `@supabase/server` with the secret key. The files have no public links; admins see them through the app.
+- **Uploads** (ID photos, payment receipts, CVs): a private Supabase Storage bucket, reached through `@supabase/server` with the secret key. The files have no public links; admins see them through the app. The public forms upload files straight from the browser to the bucket with one-time links (`POST /api/uploads/sign`), then send only the form details, so uploads never pass through the app. The bucket itself only accepts JPG/PNG/WEBP/PDF/DOC/DOCX files up to 5 MB, and the app checks each file is really there before saving an application. Without Supabase configured, the forms send files to the app as before and they're saved in `uploads/`.
 - **Admin login**: the app's own accounts (`admin_users`) and database sessions (`admin_sessions`), with an httpOnly cookie that lasts 2 hours. After 10 wrong passwords from one IP address, logins from it are blocked for 15 minutes.
 
 ## Settings (`.env.local`)
@@ -42,16 +42,19 @@ If `db:push` can't connect through the transaction pooler (port 6543), set `DATA
 
 Supabase already holds the data and files. The app itself needs a Node.js host. Both options deploy from a Git repository, so push the project to GitHub first.
 
-**Render (recommended).** Choose **New → Web Service** and connect the repository, then set:
+**Render.** Choose **New → Web Service** and connect the repository, then set:
 
 - Root directory: `web`
 - Build command: `npm install && npm run build`
 - Start command: `npm start`
 - Environment: `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `SUPABASE_DB_URL` (session pooler string)
 
-Render has no limit on upload size, so the membership form's three photos (up to 5 MB each) always go through. The free plan sleeps after 15 minutes without visitors, and the first visit after that takes about a minute. The Starter plan stays awake.
+The free plan sleeps after 15 minutes without visitors, and the first visit after that takes about a minute. The Starter plan stays awake.
 
-**Vercel.** Choose **Add New → Project**, import the repository, set the root directory to `web`, and add the same environment variables. Use the **transaction pooler** string for `SUPABASE_DB_URL`. Vercel caps each request at **4.5 MB**, so a membership application with large phone photos, or a CV close to 5 MB, will fail.
+**Vercel.** Choose **Add New → Project**, import the repository, set the root directory to `web`, and add the same environment variables. Use the **transaction pooler** string for `SUPABASE_DB_URL` (or `DATABASE_URL`). Vercel caps each request at 4.5 MB, but uploads go straight to Supabase, so that limit doesn't affect the forms. Two more things:
+
+- Set the functions' region next to your Supabase project (Settings → Functions → Region). A project in `eu-west-1` (Ireland) pairs with `dub1` (Dublin); the default US region makes every page slower.
+- Vercel's free Hobby plan is for personal, non-commercial use, so a chamber of commerce site likely needs Pro.
 
 **Custom domain.** In the host's dashboard, open **Settings → Custom Domains** and add the DNS record it shows at your domain registrar. HTTPS is set up automatically.
 

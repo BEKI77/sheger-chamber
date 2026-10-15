@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { uploadDirect } from "@/lib/directUpload";
 
 export default function JobApplication() {
     const [opportunityId, setOpportunityId] = useState("");
@@ -38,12 +39,23 @@ export default function JobApplication() {
         const formData = new FormData(form);
         formData.append("jobTitle", jobTitle);
 
+        const cvFile = formData.get("cv");
+
         setSubmitting(true);
         try {
-            const response = await fetch("/api/job-applications", {
-                method: "POST",
-                body: formData
-            });
+            // The CV goes straight to storage first; then only the details are sent
+            const uploaded = cvFile?.size ? await uploadDirect("job-application", { cv: cvFile }) : null;
+            let response;
+            if (uploaded) {
+                formData.delete("cv");
+                response = await fetch("/api/job-applications", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ ...Object.fromEntries(formData), ...uploaded })
+                });
+            } else {
+                response = await fetch("/api/job-applications", { method: "POST", body: formData });
+            }
             const data = await response.json();
             if (!response.ok || !data.success) {
                 throw new Error(data.message || "Unable to submit application.");

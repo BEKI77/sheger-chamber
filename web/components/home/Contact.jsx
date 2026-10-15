@@ -111,7 +111,7 @@ export default function Contact() {
                                 </div>
                                 <div>
                                     <h4>Phone</h4>
-                                    <p>+251 XXX XXX XXX</p>
+                                    <p>+251 908 577 171</p>
                                 </div>
                             </div>
                             {/* Email */}
@@ -142,13 +142,23 @@ export default function Contact() {
                             <div className="contact-socials">
                                 <h4>Connect With Us</h4>
                                 <div className="social-links">
-                                    <a href="#" aria-label="Facebook">
+                                    <a
+                                        href="https://www.facebook.com/SHCCSA"
+                                        aria-label="Facebook"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
                                         <i className="fab fa-facebook-f"></i>
                                     </a>{" "}
                                     <a href="#" aria-label="LinkedIn">
                                         <i className="fab fa-linkedin-in"></i>
                                     </a>{" "}
-                                    <a href="#" aria-label="Telegram">
+                                    <a
+                                        href="https://t.me/shagarchamber1365"
+                                        aria-label="Telegram"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
                                         <i className="fab fa-telegram"></i>
                                     </a>{" "}
                                     <a href="#" aria-label="Instagram">

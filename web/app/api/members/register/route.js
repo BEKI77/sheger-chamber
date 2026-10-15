@@ -1,17 +1,15 @@
 import { db, schema } from "@/db";
 import { fail, insertId, json, route } from "@/lib/server/http";
-import { IMAGE_TYPES, checkUpload, saveUpload } from "@/lib/server/files";
+import { readFormSubmission } from "@/lib/server/form-submission";
 
 const { members } = schema;
-const IMAGE_MESSAGE = "Only JPG, PNG and WEBP images are allowed.";
+const FILE_FIELDS = ["nationalIdFront", "nationalIdBack", "paymentReceipt"];
 
-// Public: the membership application form (multipart, with three photos)
+// Public: the membership application form, with three photos
+// (uploaded straight to Storage first, or included in the request)
 export const POST = route(async (request) => {
-    const form = await request.formData();
-    const text = (name) => {
-        const value = form.get(name);
-        return typeof value === "string" ? value.trim() : "";
-    };
+    const submission = await readFormSubmission(request, "membership");
+    const text = submission.text;
 
     const fields = {
         fullName: text("fullName"),
@@ -25,11 +23,8 @@ export const POST = route(async (request) => {
         businessCategory: text("businessCategory"),
         paymentMethod: text("paymentMethod")
     };
-    const front = checkUpload(form.get("nationalIdFront"), IMAGE_TYPES, IMAGE_MESSAGE);
-    const back = checkUpload(form.get("nationalIdBack"), IMAGE_TYPES, IMAGE_MESSAGE);
-    const receipt = checkUpload(form.get("paymentReceipt"), IMAGE_TYPES, IMAGE_MESSAGE);
 
-    if (Object.values(fields).some((value) => !value) || !front || !back || !receipt) {
+    if (Object.values(fields).some((value) => !value) || !FILE_FIELDS.every(submission.hasFile)) {
         return fail(400, "Please fill in all required fields.");
     }
 
@@ -45,11 +40,7 @@ export const POST = route(async (request) => {
     }
     const membershipType = fields.membershipType === "member" ? "Member" : "Partnership";
 
-    const [frontName, backName, receiptName] = [
-        await saveUpload(front, "national-ids"),
-        await saveUpload(back, "national-ids"),
-        await saveUpload(receipt, "payment-receipts")
-    ];
+    const stored = await submission.storeFiles();
 
     let result;
     try {
@@ -60,8 +51,8 @@ export const POST = route(async (request) => {
                 email: fields.email,
                 phone: fields.phone,
                 national_id: null,
-                national_id_front: frontName,
-                national_id_back: backName,
+                national_id_front: stored.nationalIdFront,
+                national_id_back: stored.nationalIdBack,
                 tin_number: text("tin") || null,
                 business_name: fields.businessName,
                 business_type: fields.businessSector,
@@ -72,7 +63,7 @@ export const POST = route(async (request) => {
                 membership_fee: String(membershipFee),
                 payment_status: "Pending",
                 payment_method: fields.paymentMethod,
-                payment_receipt: receiptName
+                payment_receipt: stored.paymentReceipt
             })
             .returning({ id: members.id });
     } catch (error) {

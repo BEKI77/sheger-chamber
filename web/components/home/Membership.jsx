@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { uploadDirect } from "@/lib/directUpload";
 
 const MEMBERSHIP_FEES = { trader: "1,000 ETB", plc: "5,000 ETB" };
 
@@ -58,18 +59,33 @@ export default function Membership() {
             return;
         }
 
-        const formData = new FormData();
-        Object.entries(values).forEach(([name, value]) => formData.append(name, value));
-        formData.append("nationalIdFront", frontFile);
-        formData.append("nationalIdBack", backFile);
-        formData.append("paymentReceipt", receiptFile);
+        const files = { nationalIdFront: frontFile, nationalIdBack: backFile, paymentReceipt: receiptFile };
 
         setSubmitting(true);
 
         try {
+            // Photos go straight to storage first; a problem there (wrong type,
+            // too large) is shown like any other rejected application
+            let uploaded;
+            try {
+                uploaded = await uploadDirect("membership", files);
+            } catch (error) {
+                alert(error.message);
+                return;
+            }
+
+            let body;
+            if (uploaded) {
+                body = JSON.stringify({ ...values, ...uploaded });
+            } else {
+                body = new FormData();
+                Object.entries({ ...values, ...files }).forEach(([name, value]) => body.append(name, value));
+            }
+
             const response = await fetch("/api/members/register", {
                 method: "POST",
-                body: formData
+                headers: uploaded ? { "Content-Type": "application/json" } : undefined,
+                body
             });
             const result = await response.json();
 
