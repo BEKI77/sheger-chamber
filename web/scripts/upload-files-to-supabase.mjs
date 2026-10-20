@@ -6,7 +6,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { createAdminClient } from "@supabase/server/core";
 
-const BUCKET = process.env.SUPABASE_BUCKET || "shagar-member-documents";
+const BUCKET = process.env.SUPABASE_BUCKET || "shaggar-member-documents";
 const UPLOAD_DIR = path.resolve(process.env.UPLOAD_DIR || "uploads");
 const FOLDERS = ["national-ids", "payment-receipts", "job-applications"];
 const TYPES = {

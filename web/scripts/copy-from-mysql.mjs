@@ -1,7 +1,7 @@
 // One-time copy of all data from the old MySQL / TiDB database into Supabase.
 // Run in the web folder after `npm run db:push`:
 //   npm run copy-from-mysql
-// Reads MYSQL_URL (e.g. mysql://user:pass@host:4000/shagar_chamber?ssl=true)
+// Reads MYSQL_URL (e.g. mysql://user:pass@host:4000/shaggar_chamber?ssl=true)
 // and SUPABASE_DB_URL. Refuses to run if a Supabase table already has rows,
 // so it can't create duplicates.
 import mysql from "mysql2/promise";

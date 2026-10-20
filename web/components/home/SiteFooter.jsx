@@ -64,11 +64,6 @@ export default function SiteFooter() {
                                 <h3>Chamber</h3>
                                 <ul>
                                     <li>
-                                        <a href="#membership">
-                                            <i className="fas fa-angle-right"></i> Membership
-                                        </a>
-                                    </li>
-                                    <li>
                                         <a href="#sectors">
                                             <i className="fas fa-angle-right"></i> Business Sectors
                                         </a>
@@ -81,6 +76,11 @@ export default function SiteFooter() {
                                     <li>
                                         <a href="#jobs">
                                             <i className="fas fa-angle-right"></i> Jobs
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#membership">
+                                            <i className="fas fa-angle-right"></i> Membership
                                         </a>
                                     </li>
                                     <li>
@@ -107,7 +107,7 @@ export default function SiteFooter() {
                                     </span>
                                 </div>
                                 <div className="footer-contact-item">
-                                    <i className="fas fa-envelope"></i> <span>info@shagarchamber.org.et</span>
+                                    <i className="fas fa-envelope"></i> <span>info@shaggarchamber.org.et</span>
                                 </div>
                                 <div className="footer-contact-item">
                                     <i className="fas fa-clock"></i> <span>Mon – Fri: 8:30 AM – 5:30 PM</span>
@@ -123,7 +123,7 @@ export default function SiteFooter() {
                                         <i className="fab fa-facebook-f"></i>
                                     </a>{" "}
                                     <a
-                                        href="https://t.me/shagarchamber1365"
+                                        href="https://t.me/shaggarchamber1365"
                                         aria-label="Telegram"
                                         target="_blank"
                                         rel="noopener noreferrer"

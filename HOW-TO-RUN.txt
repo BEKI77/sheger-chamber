@@ -1,4 +1,4 @@
-HOW TO RUN SHAGAR CHAMBER
+HOW TO RUN SHAGGAR CHAMBER
 
 The website, admin panel and API are one Next.js app in the "web" folder.
 The database and uploaded files are in Supabase.

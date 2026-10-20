@@ -136,6 +136,21 @@ export default function Sectors() {
                                 </p>
                             </div>
                         </article>
+                        {/* SERVICE */}
+                        <article className="sector-card">
+                            <div className="sector-icon">🤝</div>
+                            <div className="sector-content">
+                                <span className="sector-number">09</span>
+                                <h3>Service Sector</h3>
+                                <p>
+                                    We provide supporting consultancy services that help businesses grow, connect, and
+                                    succeed through practical business guidance, information, networking, training,
+                                    advocacy, and business development support. Our consultancy services assist members
+                                    in identifying opportunities, addressing business challenges, improving their
+                                    operations, and building sustainable partnerships.
+                                </p>
+                            </div>
+                        </article>
                     </div>
                 </div>
             </section>

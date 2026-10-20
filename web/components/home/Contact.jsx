@@ -123,7 +123,7 @@ export default function Contact() {
                                 </div>
                                 <div>
                                     <h4>Email</h4>
-                                    <p>info@shagarchamber.org.et</p>
+                                    <p>info@shaggarchamber.org.et</p>
                                 </div>
                             </div>
                             {/* Business Hours */}
@@ -153,7 +153,7 @@ export default function Contact() {
                                         <i className="fab fa-facebook-f"></i>
                                     </a>{" "}
                                     <a
-                                        href="https://t.me/shagarchamber1365"
+                                        href="https://t.me/shaggarchamber1365"
                                         aria-label="Telegram"
                                         target="_blank"
                                         rel="noopener noreferrer"

@@ -3,9 +3,26 @@
 import { useEffect, useState } from "react";
 import { uploadDirect } from "@/lib/directUpload";
 
+// Some browsers give .doc/.docx files no type (or a generic one); the server
+// only accepts real CV types, so fill it in from the file name
+const CV_TYPES = {
+    pdf: "application/pdf",
+    doc: "application/msword",
+    docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+};
+
+function withCvType(file) {
+    if (!file?.size || Object.values(CV_TYPES).includes(file.type)) return file;
+    const type = CV_TYPES[file.name.split(".").pop().toLowerCase()];
+    return type ? new File([file], file.name, { type }) : file;
+}
+
 export default function JobApplication() {
     const [opportunityId, setOpportunityId] = useState("");
     const [jobTitle, setJobTitle] = useState("");
+    // Why applying isn't possible right now (no job, closed job, load error)
+    const [unavailable, setUnavailable] = useState("");
+    const [loaded, setLoaded] = useState(false);
     const [submitting, setSubmitting] = useState(false);
 
     // The job comes from the address, e.g. /job-application?id=3
@@ -13,7 +30,8 @@ export default function JobApplication() {
         const id = new URLSearchParams(window.location.search).get("id");
         if (!id) {
             setJobTitle("No job selected");
-            alert("No job was selected. Please return to the Jobs section and click Apply Now.");
+            setUnavailable("No job was selected. Please return to the Jobs section and click Apply Now.");
+            setLoaded(true);
             return;
         }
         setOpportunityId(id);
@@ -25,21 +43,29 @@ export default function JobApplication() {
                     throw new Error(data.message || "Unable to load job information.");
                 }
                 setJobTitle(data.opportunity.title);
+                if (data.opportunity.status !== "Open") {
+                    setUnavailable("This job is no longer accepting applications.");
+                }
             })
             .catch((error) => {
                 console.error("Job loading error:", error);
                 setJobTitle("Unable to load position");
-                alert("Unable to load the selected job.");
-            });
+                setUnavailable("Unable to load the selected job. Please return to the Jobs section and try again.");
+            })
+            .finally(() => setLoaded(true));
     }, []);
 
     async function handleSubmit(event) {
         event.preventDefault();
+        if (!loaded || unavailable) {
+            alert(unavailable || "Please wait while the job information loads.");
+            return;
+        }
         const form = event.currentTarget;
         const formData = new FormData(form);
-        formData.append("jobTitle", jobTitle);
 
-        const cvFile = formData.get("cv");
+        const cvFile = withCvType(formData.get("cv"));
+        if (cvFile?.size) formData.set("cv", cvFile);
 
         setSubmitting(true);
         try {
@@ -62,7 +88,6 @@ export default function JobApplication() {
             }
             alert("Your job application has been submitted successfully.");
             form.reset();
-            if (data.jobTitle) setJobTitle(data.jobTitle);
         } catch (error) {
             console.error("Application submission error:", error);
             alert(error.message || "Unable to submit your application.");
@@ -111,6 +136,7 @@ export default function JobApplication() {
                                         value={jobTitle}
                                     />
                                 </div>
+                                {unavailable && <small>{unavailable}</small>}
                             </div>
                             {/* ================================================= APPLICATION FORM ================================================= */}
                             <form id="jobApplicationForm" encType="multipart/form-data" onSubmit={handleSubmit}>
@@ -218,7 +244,7 @@ export default function JobApplication() {
                                 </div>
                                 {/* SUBMIT */}
                                 <div className="form-actions">
-                                    <button type="submit" className="membership-button" disabled={submitting}>
+                                    <button type="submit" className="membership-button" disabled={submitting || !loaded || Boolean(unavailable)}>
                                         <i className={submitting ? "fas fa-spinner fa-spin" : "fas fa-paper-plane"}></i>{" "}
                                         {submitting ? "Submitting..." : "Submit Application"}
                                     </button>

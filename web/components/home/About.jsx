@@ -4,7 +4,7 @@ export default function About() {
             <section id="about" className="about-section">
                 <div className="container about-container">
                     <div className="about-content">
-                        <span className="section-eyebrow">ABOUT SHAGAR CHAMBER</span>
+                        <span className="section-eyebrow">ABOUT SHAGGAR CHAMBER</span>
                         <h2>
                             Building a Stronger <span>Business Community</span>
                         </h2>

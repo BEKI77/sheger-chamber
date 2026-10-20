@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const STORAGE_KEY = "shagar_admin";
+const STORAGE_KEY = "shaggar_admin";
 
 function storedAdmin() {
     try {
@@ -11,6 +11,13 @@ function storedAdmin() {
     } catch {
         return null;
     }
+}
+
+// Keep a copy of the admin's details for showing their name
+export function rememberAdmin(admin) {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(admin));
+    } catch {}
 }
 
 // Checks the admin login with the server. Sends the visitor to the login
@@ -28,11 +35,7 @@ export function useAdminSession() {
                 const data = await response.json().catch(() => ({}));
                 if (cancelled) return;
                 if (response.ok && data.success) {
-                    if (data.admin) {
-                        try {
-                            localStorage.setItem(STORAGE_KEY, JSON.stringify(data.admin));
-                        } catch {}
-                    }
+                    if (data.admin) rememberAdmin(data.admin);
                     setAdmin(data.admin || storedAdmin() || {});
                 } else {
                     window.location.href = "/admin/login";

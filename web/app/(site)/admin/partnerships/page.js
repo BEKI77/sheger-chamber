@@ -1,7 +1,7 @@
 import AdminPartnerships from "@/components/admin/partnerships/AdminPartnerships";
 
 export const metadata = {
-    title: "SHAGAR CHAMBER / ADMIN PARTNERSHIPS MANAGEMENT"
+    title: "SHAGGAR CHAMBER / ADMIN PARTNERSHIPS MANAGEMENT"
 };
 
 export default function AdminPartnershipsPage() {

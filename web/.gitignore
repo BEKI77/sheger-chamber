@@ -1,4 +1,5 @@
 node_modules/
 .next/
 .env*.local
-uploads/
+# Only the local file store, not app/api/uploads
+/uploads/

@@ -34,9 +34,9 @@ export default function AdminLogin() {
             }
 
             // The server checks the login; this copy is only for showing account details.
-            localStorage.removeItem("shagar_admin");
-            sessionStorage.removeItem("shagar_admin");
-            if (data.admin) localStorage.setItem("shagar_admin", JSON.stringify(data.admin));
+            localStorage.removeItem("shaggar_admin");
+            sessionStorage.removeItem("shaggar_admin");
+            if (data.admin) localStorage.setItem("shaggar_admin", JSON.stringify(data.admin));
 
             setMessage({ text: "Login successful. Opening dashboard...", color: "#15803d" });
             window.location.href = "/admin";

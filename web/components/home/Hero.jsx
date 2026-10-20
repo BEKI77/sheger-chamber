@@ -4,7 +4,7 @@ export default function Hero() {
             <section id="home" className="hero-section">
                 <div className="container hero-container">
                     <div className="hero-content">
-                        <span className="hero-eyebrow">SHAGAR CHAMBER OF COMMERCE & SECTORAL ASSOCIATION</span>
+                        <span className="hero-eyebrow">SHAGGAR CHAMBER OF COMMERCE & SECTORAL ASSOCIATION</span>
                         <h1>
                             Connecting Businesses. <span>Creating Opportunities.</span> Building Growth.
                         </h1>
@@ -37,7 +37,7 @@ export default function Hero() {
                     <div className="hero-visual">
                         <div className="hero-image-wrapper">
                             <img
-                                src="/image/shagar-chamber-hero.jpg"
+                                src="/image/shaggar-chamber-hero.jpg"
                                 alt="Shagar Chamber of Commerce representatives"
                             />
                             <div className="hero-image-overlay"></div>

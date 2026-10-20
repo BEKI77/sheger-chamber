@@ -13,7 +13,9 @@ export default function AdminDashboard() {
     const revenue = useApiList("/api/revenue", "revenue");
 
     // Counts show 0 until loaded, like before
-    const count = (list) => (list.status === "ready" ? list.items.length : 0);
+    const count = (list, include = () => true) => (list.status === "ready" ? list.items.filter(include).length : 0);
+    // Only approved members count; approving one raises the total
+    const isActiveMember = (member) => member.status === "Active";
     const totalRevenue = revenue.status === "ready" ? sumAmounts(revenue.items).toLocaleString() + " ETB" : "0 ETB";
     const adminName = (admin && (admin.fullName || admin.email)) || "Administrator";
 
@@ -59,6 +61,9 @@ export default function AdminDashboard() {
                     <a href="/admin/contact">
                         <i className="fas fa-envelope"></i> Contact
                     </a>{" "}
+                    <a href="/admin/profile">
+                        <i className="fas fa-user-gear"></i> My Profile
+                    </a>{" "}
                     {/* LOGOUT */}
                     <a
                         href="#"
@@ -80,9 +85,9 @@ export default function AdminDashboard() {
                         <h1>Admin Dashboard</h1>
                         <p>Shagar Chamber of Commerce & Sectoral Association</p>
                     </div>
-                    <div className="admin-user">
+                    <a href="/admin/profile" className="admin-user" title="My Profile">
                         <i className="fas fa-user-shield"></i> <span>{adminName}</span>
-                    </div>
+                    </a>
                 </header>
                 {/* ================================================= DASHBOARD CONTENT ================================================= */}
                 <section className="dashboard-content">
@@ -100,7 +105,7 @@ export default function AdminDashboard() {
                                 <i className="fas fa-users"></i>
                             </div>
                             <div className="stat-info">
-                                <span>Total Members</span> <strong id="total-members">{count(members)}</strong>
+                                <span>Total Members</span> <strong id="total-members">{count(members, isActiveMember)}</strong>
                             </div>
                         </div>
                         <div className="stat-card">
@@ -213,6 +218,15 @@ export default function AdminDashboard() {
                             <h3>Contact Messages</h3>
                             <p>Review messages and inquiries submitted through the Chamber website.</p>
                             <span className="management-link">Manage Messages →</span>
+                        </a>{" "}
+                        {/* PROFILE */}
+                        <a href="/admin/profile" className="management-card">
+                            <div className="management-icon">
+                                <i className="fas fa-user-gear"></i>
+                            </div>
+                            <h3>My Profile</h3>
+                            <p>Change your admin username, email address and password.</p>
+                            <span className="management-link">Manage Profile →</span>
                         </a>
                     </div>
                 </section>

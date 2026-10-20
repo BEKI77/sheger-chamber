@@ -34,6 +34,14 @@ const ACTIONS = {
         body: { paymentStatus: "Failed" },
         success: "Payment marked as failed.",
         failure: "Unable to update payment status."
+    },
+    delete: {
+        confirm: "Are you sure you want to permanently delete this membership application? This cannot be undone.",
+        method: "DELETE",
+        path: (id) => `/api/members/${id}`,
+        body: null,
+        success: "Membership application deleted successfully!",
+        failure: "Unable to delete membership application."
     }
 };
 
@@ -49,7 +57,7 @@ export default function AdminMembers() {
         const action = ACTIONS[kind];
         if (!confirm(action.confirm)) return;
         try {
-            await sendJson(action.path(member.id), "PATCH", action.body, action.failure);
+            await sendJson(action.path(member.id), action.method || "PATCH", action.body, action.failure);
             alert(action.success);
             members.reload();
         } catch (error) {

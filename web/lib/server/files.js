@@ -10,7 +10,7 @@ import { createAdminClient } from "@supabase/server/core";
 import { HttpError } from "./http";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
-const BUCKET_NAME = process.env.SUPABASE_BUCKET || "shagar-member-documents";
+const BUCKET_NAME = process.env.SUPABASE_BUCKET || "shaggar-member-documents";
 // Runtime data folder, not part of the app: excluded from build tracing
 const UPLOAD_DIR = path.resolve(/*turbopackIgnore: true*/ process.env.UPLOAD_DIR || "uploads");
 

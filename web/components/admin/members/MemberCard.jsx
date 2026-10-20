@@ -22,16 +22,29 @@ export default function MemberCard({ member, hidden, onAction }) {
                 <span className="member-type">{member.membership_type}</span>
             </div>
 
-            {member.status === "Pending" && (
-                <div className="admin-member-actions">
-                    <button type="button" className="approve-member-button" onClick={() => onAction("approve", member)}>
-                        <i className="fas fa-check"></i> Approve
-                    </button>{" "}
-                    <button type="button" className="reject-member-button" onClick={() => onAction("reject", member)}>
-                        <i className="fas fa-times"></i> Reject
-                    </button>
-                </div>
-            )}
+            <div className="admin-member-actions">
+                {member.status === "Pending" && (
+                    <>
+                        <button
+                            type="button"
+                            className="approve-member-button"
+                            onClick={() => onAction("approve", member)}
+                        >
+                            <i className="fas fa-check"></i> Approve
+                        </button>{" "}
+                        <button
+                            type="button"
+                            className="reject-member-button"
+                            onClick={() => onAction("reject", member)}
+                        >
+                            <i className="fas fa-times"></i> Reject
+                        </button>{" "}
+                    </>
+                )}
+                <button type="button" className="delete-member-button" onClick={() => onAction("delete", member)}>
+                    <i className="fas fa-trash"></i> Delete
+                </button>
+            </div>
 
             <div className="admin-member-info">
                 <p>

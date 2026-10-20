@@ -12,10 +12,10 @@ The public website, the admin panel and the API in one Next.js app, with Supabas
 
 Copy `.env.example` to `.env.local` and fill in the values from your Supabase project:
 
-| Setting | Where to find it |
-| --- | --- |
-| `SUPABASE_URL` | Project Settings → API Keys (or Data API): the project URL |
-| `SUPABASE_SECRET_KEY` | Project Settings → API Keys → **Secret keys** (`sb_secret_...`). Keep it secret: it bypasses all security. |
+| Setting                               | Where to find it                                                                                                                                                                          |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SUPABASE_URL`                        | Project Settings → API Keys (or Data API): the project URL                                                                                                                                |
+| `SUPABASE_SECRET_KEY`                 | Project Settings → API Keys → **Secret keys** (`sb_secret_...`). Keep it secret: it bypasses all security.                                                                                |
 | `SUPABASE_DB_URL` (or `DATABASE_URL`) | **Connect** button → **Session pooler** (or **Transaction pooler** on Vercel). Replace `[YOUR-PASSWORD]` with your database password (Database Settings → reset it if you don't know it). |
 
 The app doesn't use the publishable key (`sb_publishable_...`). Leaving it in the file does no harm.
@@ -35,7 +35,7 @@ If `db:push` can't connect through the transaction pooler (port 6543), set `DATA
 
 ### Moving existing data (one time)
 
-- **Records from the old MySQL / TiDB database**: set `MYSQL_URL` in `.env.local` (for example `mysql://user:password@host:4000/shagar_chamber?ssl=true`), run `npm run db:push`, then `npm run copy-from-mysql`. It refuses to run if Supabase already has data, so it can't create duplicates. Admin passwords keep working.
+- **Records from the old MySQL / TiDB database**: set `MYSQL_URL` in `.env.local` (for example `mysql://user:password@host:4000/shaggar_chamber?ssl=true`), run `npm run db:push`, then `npm run copy-from-mysql`. It refuses to run if Supabase already has data, so it can't create duplicates. Admin passwords keep working.
 - **Uploaded files in `uploads/`**: `npm run upload-files` copies them to the Supabase bucket, skipping files already there.
 
 ## Hosting it online

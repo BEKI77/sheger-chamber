@@ -90,7 +90,7 @@ export default function AdminExpo() {
                 <div className="container">
                     <div className="admin-header-inner">
                         <div>
-                            <span className="admin-label">SHAGAR CHAMBER</span>
+                            <span className="admin-label">SHAGGAR CHAMBER</span>
                             <h1>Expo Management</h1>
                         </div>
                         <a href="/" className="admin-back-link">

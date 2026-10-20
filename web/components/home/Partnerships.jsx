@@ -133,7 +133,7 @@ export default function Partnerships() {
                     <div className="partnerships-highlight">
                         <div className="partnerships-highlight-icon">🤝</div>
                         <div className="partnerships-highlight-content">
-                            <span className="section-label">PARTNER WITH SHAGAR CHAMBER</span>
+                            <span className="section-label">PARTNER WITH SHAGGAR CHAMBER</span>
                             <h3>Let's Create Opportunities Together</h3>
                             <p>
                                 Whether you are a business, investor, organization or institution, connect with Shagar

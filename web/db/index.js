@@ -22,7 +22,7 @@ function createClient() {
 
 // Reuse one connection pool across hot reloads in development
 const globalForDb = globalThis;
-const client = globalForDb.__shagarDb ?? (globalForDb.__shagarDb = createClient());
+const client = globalForDb.__shaggarDb ?? (globalForDb.__shaggarDb = createClient());
 
 export const db = drizzle(client, { schema });
 export { schema };

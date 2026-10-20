@@ -3,12 +3,13 @@
 // only its SHA-256 hash, so a leaked database cannot be used to log in.
 import "server-only";
 import crypto from "node:crypto";
+import bcrypt from "bcryptjs";
 import { cookies, headers } from "next/headers";
-import { and, eq, gt, lt, sql } from "drizzle-orm";
+import { and, eq, gt, lt, ne, sql } from "drizzle-orm";
 import { db, schema } from "@/db";
 import { HttpError } from "./http";
 
-const COOKIE_NAME = "shagar_session";
+const COOKIE_NAME = "shaggar_session";
 const SESSION_HOURS = 2;
 const MAX_FAILED_LOGINS = 10;
 const LOGIN_WINDOW_MINUTES = 15;
@@ -69,6 +70,29 @@ export async function requireAdmin() {
     const admin = await getSessionAdmin();
     if (!admin) throw new HttpError(401, "Admin authentication required.");
     return admin;
+}
+
+// Sign the admin out everywhere except this browser (after a password change)
+export async function endOtherSessions(adminId) {
+    const token = (await cookies()).get(COOKIE_NAME)?.value || "";
+    await db
+        .delete(schema.adminSessions)
+        .where(and(eq(schema.adminSessions.admin_id, adminId), ne(schema.adminSessions.token_hash, hashToken(token))));
+}
+
+// Check the logged-in admin's current password before changing their account.
+// Wrong guesses count toward the same per-IP limit as the login form.
+export async function requireCurrentPassword(admin, password) {
+    if (typeof password !== "string" || !password) throw new HttpError(400, "Please enter your current password.");
+    const ip = await clientIp();
+    if (await loginBlocked(ip)) {
+        throw new HttpError(429, "Too many failed attempts. Please try again in 15 minutes.");
+    }
+    if (!(await bcrypt.compare(password, admin.password_hash))) {
+        await recordFailedLogin(ip);
+        throw new HttpError(400, "Your current password is incorrect.");
+    }
+    await clearFailedLogins(ip);
 }
 
 export async function destroySession() {

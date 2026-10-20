@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import CurrentYear from "@/components/CurrentYear";
+import { markNewsRead } from "@/lib/news";
 
 function BackToNews() {
     return (
@@ -46,6 +47,7 @@ export default function NewsDetails() {
                     return;
                 }
                 document.title = `${article.title} | Shagar Chamber`;
+                markNewsRead([article.id]);
                 setState({ status: "ready", article });
             })
             .catch((error) => {

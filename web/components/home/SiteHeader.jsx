@@ -1,15 +1,16 @@
 "use client";
 
 import { Fragment, useEffect, useRef, useState } from "react";
+import NewsNotifications from "./NewsNotifications";
 
 const NAV_LINKS = [
     ["#home", "Home"],
     ["#about", "About"],
     ["#sectors", "Sectors"],
     ["#services", "Services"],
-    ["#membership", "Membership"],
     ["#opportunities", "Opportunities"],
     ["#jobs", "Jobs"],
+    ["#membership", "Membership"],
     ["#events", "Events"],
     ["#expo", "Expo"],
     ["#news", "News"],
@@ -79,7 +80,7 @@ export default function SiteHeader() {
                 <a href="#home" className="brand">
                     <div className="brand-logo">
                         <img
-                            src="/assets/images/shagar-logo.png"
+                            src="/assets/images/shaggar-logo.png"
                             alt="Shagar Chamber of Commerce & Sectoral Association Logo"
                         />
                     </div>
@@ -122,6 +123,8 @@ export default function SiteHeader() {
                         Become a Member
                     </a>
                 </div>
+                {/* News notifications */}
+                <NewsNotifications />
             </nav>
         </header>
     );
