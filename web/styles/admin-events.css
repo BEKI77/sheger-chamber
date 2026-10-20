@@ -81,28 +81,6 @@ body {
   color: #d4a72c;
 }
 
-.dashboard-link {
-  background: #d4a72c;
-
-  color: #0b1f3a;
-
-  text-decoration: none;
-
-  padding: 11px 17px;
-
-  border-radius: 7px;
-
-  font-size: 14px;
-
-  font-weight: bold;
-
-  transition: 0.2s;
-}
-
-.dashboard-link:hover {
-  background: white;
-}
-
 /* =====================================================
            MAIN
            ===================================================== */

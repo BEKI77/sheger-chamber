@@ -1,3 +1,4 @@
+import AdminShell from "@/components/admin/AdminShell";
 import AdminMembers from "@/components/admin/members/AdminMembers";
 
 export const metadata = {
@@ -5,5 +6,9 @@ export const metadata = {
 };
 
 export default function AdminMembersPage() {
-    return <AdminMembers />;
+    return (
+        <AdminShell>
+            <AdminMembers />
+        </AdminShell>
+    );
 }

@@ -77,21 +77,6 @@ export default function AdminOpportunities() {
 
     return (
         <>
-            {/* ========================= ADMIN HEADER ========================= */}
-            <header className="admin-header">
-                <div className="admin-header-inner">
-                    <div className="admin-brand">
-                        <div className="admin-logo">SC</div>
-                        <div>
-                            <h1>Shagar Chamber</h1>
-                            <span>Opportunities Management</span>
-                        </div>
-                    </div>
-                    <a href="/" className="admin-back-link">
-                        <i className="fas fa-arrow-left"></i> Back to Website
-                    </a>
-                </div>
-            </header>
             {/* ========================= MAIN CONTENT ========================= */}
             <main className="admin-main">
                 <div className="admin-container">
@@ -106,8 +91,9 @@ export default function AdminOpportunities() {
                     <section className="admin-panel">
                         <div className="admin-panel-heading">
                             <div>
-                                <i className="fas fa-plus-circle"></i>
-                                <h3>Add New Opportunity</h3>
+                                <h3>
+                                    <i className="fas fa-plus-circle"></i> Add New Opportunity
+                                </h3>
                             </div>
                         </div>
                         <form id="opportunityForm" onSubmit={handleCreate}>
@@ -206,8 +192,9 @@ export default function AdminOpportunities() {
                     <section className="admin-panel">
                         <div className="admin-panel-heading">
                             <div>
-                                <i className="fas fa-list"></i>
-                                <h3>Existing Opportunities</h3>
+                                <h3>
+                                    <i className="fas fa-list"></i> Existing Opportunities
+                                </h3>
                             </div>
                             <button
                                 type="button"

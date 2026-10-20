@@ -1,7 +1,8 @@
 "use client";
 
-import { useAdminSession, logoutAdmin } from "@/lib/adminSession";
+import { useAdminSession } from "@/lib/adminSession";
 import { useApiList } from "@/lib/useApiList";
+import AdminShell from "./AdminShell";
 
 const sumAmounts = (records) => records.reduce((total, record) => total + Number(record.amount || 0), 0);
 
@@ -20,65 +21,9 @@ export default function AdminDashboard() {
     const adminName = (admin && (admin.fullName || admin.email)) || "Administrator";
 
     return (
-        <>
-            {/* ===================================================== SIDEBAR ===================================================== */}
-            <aside className="admin-sidebar">
-                <div className="admin-logo">
-                    <div className="admin-logo-icon">
-                        <i className="fas fa-building"></i>
-                    </div>
-                    <h2>Shagar Chamber</h2>
-                    <span>ADMINISTRATION</span>
-                </div>
-                <nav className="admin-nav">
-                    <a href="/admin" className="active">
-                        <i className="fas fa-chart-line"></i> Dashboard
-                    </a>{" "}
-                    <a href="/admin/members">
-                        <i className="fas fa-users"></i> Members
-                    </a>{" "}
-                    <a href="/admin/opportunities">
-                        <i className="fas fa-briefcase"></i> Opportunities
-                    </a>{" "}
-                    <a href="/admin/job-applications">
-                        <i className="fas fa-file-lines"></i> Job Applications
-                    </a>{" "}
-                    <a href="/admin/news">
-                        <i className="fas fa-newspaper"></i> News
-                    </a>{" "}
-                    <a href="/admin/expo">
-                        <i className="fas fa-globe"></i> Expo
-                    </a>{" "}
-                    <a href="/admin/events">
-                        <i className="fas fa-calendar-days"></i> Events
-                    </a>{" "}
-                    <a href="/admin/partnerships">
-                        <i className="fas fa-handshake"></i> Partnerships
-                    </a>{" "}
-                    <a href="/admin/revenue">
-                        <i className="fas fa-money-bill-wave"></i> Revenue
-                    </a>{" "}
-                    <a href="/admin/contact">
-                        <i className="fas fa-envelope"></i> Contact
-                    </a>{" "}
-                    <a href="/admin/profile">
-                        <i className="fas fa-user-gear"></i> My Profile
-                    </a>{" "}
-                    {/* LOGOUT */}
-                    <a
-                        href="#"
-                        id="adminLogout"
-                        onClick={(event) => {
-                            event.preventDefault();
-                            logoutAdmin();
-                        }}
-                    >
-                        <i className="fas fa-right-from-bracket"></i> Logout
-                    </a>
-                </nav>
-            </aside>
+        <AdminShell>
             {/* ===================================================== MAIN ADMIN AREA ===================================================== */}
-            <main className="admin-main">
+            <main className="admin-main admin-dashboard">
                 {/* TOP BAR */}
                 <header className="admin-topbar">
                     <div>
@@ -231,6 +176,6 @@ export default function AdminDashboard() {
                     </div>
                 </section>
             </main>
-        </>
+        </AdminShell>
     );
 }

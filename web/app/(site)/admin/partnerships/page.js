@@ -1,3 +1,4 @@
+import AdminShell from "@/components/admin/AdminShell";
 import AdminPartnerships from "@/components/admin/partnerships/AdminPartnerships";
 
 export const metadata = {
@@ -5,5 +6,9 @@ export const metadata = {
 };
 
 export default function AdminPartnershipsPage() {
-    return <AdminPartnerships />;
+    return (
+        <AdminShell>
+            <AdminPartnerships />
+        </AdminShell>
+    );
 }

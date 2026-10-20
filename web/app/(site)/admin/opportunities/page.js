@@ -1,3 +1,4 @@
+import AdminShell from "@/components/admin/AdminShell";
 import AdminOpportunities from "@/components/admin/opportunities/AdminOpportunities";
 
 export const metadata = {
@@ -5,5 +6,9 @@ export const metadata = {
 };
 
 export default function AdminOpportunitiesPage() {
-    return <AdminOpportunities />;
+    return (
+        <AdminShell>
+            <AdminOpportunities />
+        </AdminShell>
+    );
 }

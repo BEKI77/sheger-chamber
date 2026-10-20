@@ -85,28 +85,24 @@ export default function AdminExpo() {
 
     return (
         <>
-            {/* ===================================================== ADMIN EXPO HEADER ===================================================== */}
-            <header className="admin-header">
-                <div className="container">
-                    <div className="admin-header-inner">
-                        <div>
-                            <span className="admin-label">SHAGGAR CHAMBER</span>
-                            <h1>Expo Management</h1>
-                        </div>
-                        <a href="/" className="admin-back-link">
-                            <i className="fa-solid fa-arrow-left"></i> Back to Website
-                        </a>
+            <main className="admin-main">
+                <div className="admin-container">
+                    <div className="admin-page-heading">
+                        <span className="admin-section-label">
+                            <i className="fas fa-globe"></i> Event Management
+                        </span>
+                        <h2>Expo Management</h2>
+                        <p>Create and manage National and International Expo events.</p>
                     </div>
-                </div>
-            </header>
-            <main>
-                {/* ===================================================== CREATE EXPO SECTION ===================================================== */}
-                <section className="admin-section">
-                    <div className="container">
-                        <div className="admin-section-heading">
-                            <span className="admin-section-label">EXPO MANAGEMENT</span>
-                            <h2>Create Expo</h2>
-                            <p>Add and manage National and International Expo events.</p>
+                    {/* ===================================================== CREATE EXPO SECTION ===================================================== */}
+                    <section className="admin-panel">
+                        <div className="admin-panel-heading">
+                            <div>
+                                <h3>
+                                    <i className="fas fa-plus-circle"></i> Create Expo
+                                </h3>
+                                <p>Add a National or International Expo event.</p>
+                            </div>
                         </div>
                         {/* ================================================= EXPO FORM ================================================= */}
                         <form
@@ -214,18 +210,18 @@ export default function AdminExpo() {
                                 </button>
                             </div>
                         </form>
-                    </div>
-                </section>
-                {/* ===================================================== EXISTING EXPO SECTION ===================================================== */}
-                <section className="admin-section admin-list-section">
-                    <div className="container">
-                        <div className="admin-section-heading">
-                            <span className="admin-section-label">EXISTING EXPOS</span>
-                            <h2>Manage Expos</h2>
-                        </div>
-                        <div className="admin-list-header">
+                    </section>
+                    {/* ===================================================== EXISTING EXPO SECTION ===================================================== */}
+                    <section className="admin-panel">
+                        <div className="admin-panel-heading">
+                            <div>
+                                <h3>
+                                    <i className="fas fa-list"></i> Manage Expos
+                                </h3>
+                                <p>Edit or remove existing expos.</p>
+                            </div>
                             <button type="button" id="refreshExpos" className="admin-secondary-button" onClick={reload}>
-                                <i className="fa-solid fa-arrows-rotate"></i> Refresh Expos
+                                <i className="fa-solid fa-arrows-rotate"></i> Refresh
                             </button>
                         </div>
                         <div id="admin-expos-list" className="admin-list">
@@ -252,8 +248,8 @@ export default function AdminExpo() {
                                     <ExpoAdminCard key={expo.id} expo={expo} onEdit={startEdit} onDelete={deleteExpo} />
                                 ))}
                         </div>
-                    </div>
-                </section>
+                    </section>
+                </div>
             </main>
         </>
     );

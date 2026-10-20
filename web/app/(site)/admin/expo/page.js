@@ -1,3 +1,4 @@
+import AdminShell from "@/components/admin/AdminShell";
 import AdminExpo from "@/components/admin/expo/AdminExpo";
 
 export const metadata = {
@@ -5,5 +6,9 @@ export const metadata = {
 };
 
 export default function AdminExpoPage() {
-    return <AdminExpo />;
+    return (
+        <AdminShell>
+            <AdminExpo />
+        </AdminShell>
+    );
 }

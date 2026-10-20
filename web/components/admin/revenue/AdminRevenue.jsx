@@ -39,23 +39,6 @@ export default function AdminRevenue() {
 
     return (
         <>
-            {/* ===================================================== ADMIN HEADER ===================================================== */}
-            <header className="admin-header">
-                <div className="admin-header-inner">
-                    <div className="admin-brand">
-                        <div className="admin-logo">
-                            <i className="fas fa-money-bill-wave"></i>
-                        </div>
-                        <div>
-                            <h1>Shagar Chamber</h1>
-                            <span>Revenue Management</span>
-                        </div>
-                    </div>
-                    <a href="/" className="admin-back-link">
-                        <i className="fas fa-arrow-left"></i> Back to Website
-                    </a>
-                </div>
-            </header>
             {/* ===================================================== MAIN CONTENT ===================================================== */}
             <main className="admin-main">
                 <div className="admin-container">
@@ -78,99 +61,102 @@ export default function AdminRevenue() {
                             </div>
                         </div>
                         <form id="revenueForm" onSubmit={handleCreate}>
-                            {/* REVENUE TYPE */}
-                            <div className="form-group">
-                                <label htmlFor="revenueType">Revenue Type</label>{" "}
-                                <select id="revenueType" name="revenueType" required>
-                                    <option value="">Select revenue type</option>
-                                    <option value="Membership">Membership</option>
-                                    <option value="Partnership">Partnership</option>
-                                    <option value="Expo">Expo</option>
-                                    <option value="Event">Event</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                            <div className="admin-form-grid">
+                                {/* REVENUE TYPE */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="revenueType">Revenue Type</label>{" "}
+                                    <select id="revenueType" name="revenueType" required>
+                                        <option value="">Select revenue type</option>
+                                        <option value="Membership">Membership</option>
+                                        <option value="Partnership">Partnership</option>
+                                        <option value="Expo">Expo</option>
+                                        <option value="Event">Event</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                {/* DESCRIPTION */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="description">Description</label>{" "}
+                                    <input
+                                        type="text"
+                                        id="description"
+                                        name="description"
+                                        placeholder="Example: Annual membership fee"
+                                        required
+                                    />
+                                </div>
+                                {/* PAYER NAME */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="payerName">Payer Name</label>{" "}
+                                    <input
+                                        type="text"
+                                        id="payerName"
+                                        name="payerName"
+                                        placeholder="Business or person's name"
+                                        required
+                                    />
+                                </div>
+                                {/* AMOUNT */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="amount">Amount (ETB)</label>{" "}
+                                    <input
+                                        type="number"
+                                        id="amount"
+                                        name="amount"
+                                        min="0"
+                                        step="0.01"
+                                        placeholder="0.00"
+                                        required
+                                    />
+                                </div>
+                                {/* PAYMENT METHOD */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="paymentMethod">Payment Method</label>{" "}
+                                    <select id="paymentMethod" name="paymentMethod" required>
+                                        <option value="">Select payment method</option>
+                                        <option value="CBE">CBE</option>
+                                        <option value="CBO">CBO</option>
+                                        <option value="Sinke">Sinke</option>
+                                        <option value="Awash">Awash</option>
+                                        <option value="Cash">Cash</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                {/* PAYMENT STATUS */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="paymentStatus">Payment Status</label>{" "}
+                                    <select id="paymentStatus" name="paymentStatus">
+                                        <option value="Pending">Pending</option>
+                                        <option value="Paid">Paid</option>
+                                        <option value="Failed">Failed</option>
+                                    </select>
+                                </div>
+                                {/* PAYMENT DATE */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="paymentDate">Payment Date</label>{" "}
+                                    <input type="date" id="paymentDate" name="paymentDate" />
+                                </div>
+                                {/* REFERENCE */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="reference">Reference</label>{" "}
+                                    <input
+                                        type="text"
+                                        id="reference"
+                                        name="reference"
+                                        placeholder="Optional payment reference"
+                                    />
+                                </div>
+                                {/* NOTES */}
+                                <div className="admin-form-group admin-form-full">
+                                    <label htmlFor="notes">Notes</label>{" "}
+                                    <textarea id="notes" name="notes" rows={4} placeholder="Additional information..." />
+                                </div>
                             </div>
-                            {/* DESCRIPTION */}
-                            <div className="form-group">
-                                <label htmlFor="description">Description</label>{" "}
-                                <input
-                                    type="text"
-                                    id="description"
-                                    name="description"
-                                    placeholder="Example: Annual membership fee"
-                                    required
-                                />
+                            <div className="admin-form-actions">
+                                <button type="submit" className="admin-primary-button">
+                                    <i className="fas fa-save"></i> Save Revenue Record
+                                </button>
                             </div>
-                            {/* PAYER NAME */}
-                            <div className="form-group">
-                                <label htmlFor="payerName">Payer Name</label>{" "}
-                                <input
-                                    type="text"
-                                    id="payerName"
-                                    name="payerName"
-                                    placeholder="Business or person's name"
-                                    required
-                                />
-                            </div>
-                            {/* AMOUNT */}
-                            <div className="form-group">
-                                <label htmlFor="amount">Amount (ETB)</label>{" "}
-                                <input
-                                    type="number"
-                                    id="amount"
-                                    name="amount"
-                                    min="0"
-                                    step="0.01"
-                                    placeholder="0.00"
-                                    required
-                                />
-                            </div>
-                            {/* PAYMENT METHOD */}
-                            <div className="form-group">
-                                <label htmlFor="paymentMethod">Payment Method</label>{" "}
-                                <select id="paymentMethod" name="paymentMethod" required>
-                                    <option value="">Select payment method</option>
-                                    <option value="CBE">CBE</option>
-                                    <option value="CBO">CBO</option>
-                                    <option value="Sinke">Sinke</option>
-                                    <option value="Awash">Awash</option>
-                                    <option value="Cash">Cash</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                            {/* PAYMENT STATUS */}
-                            <div className="form-group">
-                                <label htmlFor="paymentStatus">Payment Status</label>{" "}
-                                <select id="paymentStatus" name="paymentStatus">
-                                    <option value="Pending">Pending</option>
-                                    <option value="Paid">Paid</option>
-                                    <option value="Failed">Failed</option>
-                                </select>
-                            </div>
-                            {/* PAYMENT DATE */}
-                            <div className="form-group">
-                                <label htmlFor="paymentDate">Payment Date</label>{" "}
-                                <input type="date" id="paymentDate" name="paymentDate" />
-                            </div>
-                            {/* REFERENCE */}
-                            <div className="form-group">
-                                <label htmlFor="reference">Reference</label>{" "}
-                                <input
-                                    type="text"
-                                    id="reference"
-                                    name="reference"
-                                    placeholder="Optional payment reference"
-                                />
-                            </div>
-                            {/* NOTES */}
-                            <div className="form-group">
-                                <label htmlFor="notes">Notes</label>{" "}
-                                <textarea id="notes" name="notes" rows={4} placeholder="Additional information..." />
-                            </div>
-                            {/* SUBMIT */}
-                            <button type="submit" className="admin-primary-button">
-                                <i className="fas fa-save"></i> Save Revenue Record
-                            </button>
                         </form>
                     </section>
                     {/* ================================================= REVENUE LIST ================================================= */}

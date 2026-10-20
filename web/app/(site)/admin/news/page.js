@@ -1,3 +1,4 @@
+import AdminShell from "@/components/admin/AdminShell";
 import AdminNews from "@/components/admin/news/AdminNews";
 
 export const metadata = {
@@ -5,5 +6,9 @@ export const metadata = {
 };
 
 export default function AdminNewsPage() {
-    return <AdminNews />;
+    return (
+        <AdminShell>
+            <AdminNews />
+        </AdminShell>
+    );
 }

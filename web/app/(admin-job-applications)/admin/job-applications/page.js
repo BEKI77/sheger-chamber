@@ -1,3 +1,4 @@
+import AdminShell from "@/components/admin/AdminShell";
 import AdminJobApplications from "@/components/admin/job-applications/AdminJobApplications";
 
 export const metadata = {
@@ -5,5 +6,9 @@ export const metadata = {
 };
 
 export default function AdminJobApplicationsPage() {
-    return <AdminJobApplications />;
+    return (
+        <AdminShell>
+            <AdminJobApplications />
+        </AdminShell>
+    );
 }

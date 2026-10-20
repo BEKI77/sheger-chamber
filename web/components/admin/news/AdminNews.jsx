@@ -124,23 +124,6 @@ export default function AdminNews() {
 
     return (
         <>
-            {/* ===================================================== ADMIN HEADER ===================================================== */}
-            <header className="admin-header">
-                <div className="admin-header-inner">
-                    <div className="admin-brand">
-                        <div className="admin-logo">
-                            <i className="fas fa-newspaper"></i>
-                        </div>
-                        <div>
-                            <h1>Shagar Chamber</h1>
-                            <span>News Management</span>
-                        </div>
-                    </div>
-                    <a href="/" className="admin-back-link">
-                        <i className="fas fa-arrow-left"></i> Back to Website
-                    </a>
-                </div>
-            </header>
             {/* ===================================================== MAIN ===================================================== */}
             <main className="admin-main">
                 <div className="admin-container">

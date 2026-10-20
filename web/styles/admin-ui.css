@@ -1,0 +1,1318 @@
+/* =====================================================
+           SHAGGAR CHAMBER
+           SHARED ADMIN UI
+           One standard look for every admin page's headings,
+           panels, forms, buttons, lists and empty states.
+           Scoped to #admin-ui (the content area of AdminShell)
+           so it overrides the older per-page styles in
+           site.css, admin-events.css and admin-job-applications.css.
+           ===================================================== */
+
+#admin-ui {
+  --ui-navy: #0b1f3a;
+  --ui-gold: #d4a72c;
+  --ui-gold-dark: #b58b18;
+  --ui-gold-soft: #fbf3dc;
+  --ui-bg: #f4f6f9;
+  --ui-surface: #ffffff;
+  --ui-subtle: #f8fafc;
+  --ui-border: #e5e7eb;
+  --ui-input-border: #d1d5db;
+  --ui-text: #1f2937;
+  --ui-muted: #6b7280;
+  --ui-red: #b91c1c;
+  --ui-red-soft: #fef2f2;
+  --ui-green: #15803d;
+  --ui-green-soft: #ecfdf3;
+  --ui-blue: #1d4ed8;
+  --ui-blue-soft: #eff6ff;
+  --ui-radius: 14px;
+  --ui-radius-sm: 8px;
+  --ui-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 4px 16px rgba(16, 24, 40, 0.04);
+
+  background: var(--ui-bg);
+  color: var(--ui-text);
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+#admin-ui *,
+#admin-ui *::before,
+#admin-ui *::after {
+  box-sizing: border-box;
+}
+
+/* =====================================================
+           PAGE WRAPPER
+           ===================================================== */
+
+#admin-ui > main:not(.admin-dashboard) {
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 36px 32px 64px;
+  background: transparent;
+}
+
+#admin-ui .admin-container,
+#admin-ui .admin-members-page > .container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* =====================================================
+           PAGE HEADING
+           ===================================================== */
+
+#admin-ui .admin-page-heading,
+#admin-ui .page-title {
+  margin: 0 0 28px;
+  padding: 0;
+  max-width: none;
+  text-align: left;
+}
+
+#admin-ui .admin-section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: var(--ui-gold-dark);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#admin-ui .admin-page-heading h1,
+#admin-ui .admin-page-heading h2,
+#admin-ui .page-title h1,
+#admin-ui .page-title h2 {
+  margin: 0 0 6px;
+  color: var(--ui-navy);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+#admin-ui .admin-page-heading p,
+#admin-ui .page-title p {
+  margin: 0;
+  color: var(--ui-muted);
+  font-size: 15px;
+}
+
+/* =====================================================
+           PANELS
+           ===================================================== */
+
+#admin-ui .admin-panel,
+#admin-ui .admin-card,
+#admin-ui .applications-card {
+  margin: 0 0 24px;
+  padding: 28px;
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  box-shadow: var(--ui-shadow);
+}
+
+#admin-ui .admin-panel-heading,
+#admin-ui .list-header,
+#admin-ui .applications-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 0 0 24px;
+  padding: 0 0 18px;
+  border-bottom: 1px solid var(--ui-border);
+}
+
+#admin-ui .admin-panel-heading > div {
+  display: block;
+  min-width: 0;
+}
+
+#admin-ui .admin-panel-heading h2,
+#admin-ui .admin-panel-heading h3,
+#admin-ui .list-header h3,
+#admin-ui .applications-header h3,
+#admin-ui .admin-card > h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: var(--ui-navy);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+#admin-ui .admin-card > h3 {
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--ui-border);
+}
+
+#admin-ui .admin-panel-heading h2 i,
+#admin-ui .admin-panel-heading h3 i,
+#admin-ui .list-header h3 i,
+#admin-ui .admin-card > h3 i {
+  color: var(--ui-gold);
+  font-size: 17px;
+}
+
+#admin-ui .admin-panel-heading p {
+  margin: 4px 0 0;
+  color: var(--ui-muted);
+  font-size: 14px;
+}
+
+/* =====================================================
+           FORMS
+           ===================================================== */
+
+#admin-ui form {
+  margin: 0;
+}
+
+#admin-ui .admin-form-grid,
+#admin-ui .form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 24px;
+  margin: 0;
+}
+
+#admin-ui .admin-form-full,
+#admin-ui .form-group.full {
+  grid-column: 1 / -1;
+}
+
+#admin-ui .admin-form-group,
+#admin-ui .form-group,
+#admin-ui .admin-search-box,
+#admin-ui .admin-filter-box {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 0;
+  min-width: 0;
+}
+
+/* Fields placed after a grid (e.g. long text areas) */
+#admin-ui .admin-form-grid + .admin-form-group,
+#admin-ui .admin-form-group + .admin-form-group {
+  margin-top: 20px;
+}
+
+#admin-ui .admin-form-grid > .admin-form-group,
+#admin-ui .form-grid > .form-group {
+  margin-top: 0;
+}
+
+#admin-ui label {
+  display: block;
+  margin: 0;
+  color: var(--ui-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+#admin-ui label span {
+  color: var(--ui-red);
+}
+
+#admin-ui .admin-form-group small,
+#admin-ui .form-group small {
+  display: block;
+  margin: 0;
+  color: var(--ui-muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+#admin-ui input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]),
+#admin-ui select,
+#admin-ui textarea {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 14px;
+  background-color: var(--ui-surface);
+  border: 1px solid var(--ui-input-border);
+  border-radius: var(--ui-radius-sm);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  color: var(--ui-text);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  outline: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+#admin-ui textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+#admin-ui select {
+  padding-right: 40px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%236b7280' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px 8px;
+  cursor: pointer;
+}
+
+#admin-ui input::placeholder,
+#admin-ui textarea::placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+
+#admin-ui input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]):hover,
+#admin-ui select:hover,
+#admin-ui textarea:hover {
+  border-color: #9ca3af;
+}
+
+#admin-ui input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]):focus,
+#admin-ui select:focus,
+#admin-ui textarea:focus {
+  border-color: var(--ui-gold);
+  box-shadow: 0 0 0 3px rgba(212, 167, 44, 0.22);
+}
+
+#admin-ui input:disabled,
+#admin-ui select:disabled,
+#admin-ui textarea:disabled {
+  background-color: var(--ui-subtle);
+  color: var(--ui-muted);
+  cursor: not-allowed;
+}
+
+#admin-ui .admin-form-actions,
+#admin-ui .form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin: 28px 0 0;
+  padding: 20px 0 0;
+  border-top: 1px solid var(--ui-border);
+}
+
+/* Members search & filters */
+#admin-ui .admin-search-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
+  gap: 16px 20px;
+  margin: 0;
+}
+
+#admin-ui .admin-search-input {
+  position: relative;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+}
+
+#admin-ui .admin-search-input i {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+#admin-ui .admin-search-input input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]) {
+  padding-left: 40px;
+}
+
+#admin-ui .admin-search-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0 0;
+}
+
+/* =====================================================
+           BUTTONS
+           ===================================================== */
+
+#admin-ui button,
+#admin-ui .btn {
+  font-family: inherit;
+}
+
+#admin-ui .admin-primary-button,
+#admin-ui .admin-secondary-button,
+#admin-ui .btn,
+#admin-ui .refresh-btn,
+#admin-ui .save-status-btn,
+#admin-ui .cv-button,
+#admin-ui .download-cv-button,
+#admin-ui .view-btn,
+#admin-ui .view-application-btn,
+#admin-ui .admin-edit-button,
+#admin-ui .admin-delete-button,
+#admin-ui .admin-close-button,
+#admin-ui .admin-edit-news-button,
+#admin-ui .admin-delete-news-button,
+#admin-ui .admin-status-button,
+#admin-ui .approve-member-button,
+#admin-ui .reject-member-button,
+#admin-ui .delete-member-button,
+#admin-ui .verify-payment-button,
+#admin-ui .failed-payment-button,
+#admin-ui .action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  width: auto;
+  margin: 0;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: var(--ui-radius-sm);
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transform: none;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    color 0.15s,
+    box-shadow 0.15s;
+}
+
+#admin-ui .admin-primary-button i,
+#admin-ui .admin-secondary-button i,
+#admin-ui .btn i {
+  font-size: 14px;
+}
+
+/* Primary: gold */
+#admin-ui .admin-primary-button,
+#admin-ui .btn-primary,
+#admin-ui .save-status-btn,
+#admin-ui .download-cv-button {
+  background: var(--ui-gold);
+  border-color: var(--ui-gold);
+  color: var(--ui-navy);
+}
+
+#admin-ui .admin-primary-button:hover,
+#admin-ui .btn-primary:hover,
+#admin-ui .save-status-btn:hover,
+#admin-ui .download-cv-button:hover {
+  background: var(--ui-gold-dark);
+  border-color: var(--ui-gold-dark);
+  color: var(--ui-navy);
+}
+
+/* Secondary: outlined */
+#admin-ui .admin-secondary-button,
+#admin-ui .btn-secondary,
+#admin-ui .refresh-btn,
+#admin-ui .cv-button,
+#admin-ui .view-btn,
+#admin-ui .view-application-btn,
+#admin-ui .admin-edit-button,
+#admin-ui .admin-edit-news-button,
+#admin-ui .admin-close-button,
+#admin-ui .admin-status-button,
+#admin-ui .edit-btn {
+  background: var(--ui-surface);
+  border-color: var(--ui-input-border);
+  color: var(--ui-navy);
+}
+
+#admin-ui .admin-secondary-button:hover,
+#admin-ui .btn-secondary:hover,
+#admin-ui .refresh-btn:hover,
+#admin-ui .cv-button:hover,
+#admin-ui .view-btn:hover,
+#admin-ui .view-application-btn:hover,
+#admin-ui .admin-edit-button:hover,
+#admin-ui .admin-edit-news-button:hover,
+#admin-ui .admin-close-button:hover,
+#admin-ui .admin-status-button:hover,
+#admin-ui .edit-btn:hover {
+  background: var(--ui-subtle);
+  border-color: var(--ui-navy);
+  color: var(--ui-navy);
+}
+
+/* Danger: red outline */
+#admin-ui .admin-delete-button,
+#admin-ui .admin-delete-news-button,
+#admin-ui .delete-member-button,
+#admin-ui .reject-member-button,
+#admin-ui .failed-payment-button,
+#admin-ui .delete-btn {
+  background: var(--ui-surface);
+  border-color: #fecaca;
+  color: var(--ui-red);
+}
+
+#admin-ui .admin-delete-button:hover,
+#admin-ui .admin-delete-news-button:hover,
+#admin-ui .delete-member-button:hover,
+#admin-ui .reject-member-button:hover,
+#admin-ui .failed-payment-button:hover,
+#admin-ui .delete-btn:hover {
+  background: var(--ui-red-soft);
+  border-color: var(--ui-red);
+  color: var(--ui-red);
+}
+
+/* Success: green */
+#admin-ui .approve-member-button,
+#admin-ui .verify-payment-button {
+  background: var(--ui-green);
+  border-color: var(--ui-green);
+  color: #ffffff;
+}
+
+#admin-ui .approve-member-button:hover,
+#admin-ui .verify-payment-button:hover {
+  background: #166534;
+  border-color: #166534;
+  color: #ffffff;
+}
+
+#admin-ui .admin-primary-button:focus-visible,
+#admin-ui .admin-secondary-button:focus-visible,
+#admin-ui .btn:focus-visible,
+#admin-ui button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(212, 167, 44, 0.35);
+}
+
+#admin-ui button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Smaller buttons inside list items */
+#admin-ui .admin-action-buttons button,
+#admin-ui .admin-opportunity-actions button,
+#admin-ui .admin-message-actions button,
+#admin-ui .admin-member-actions button,
+#admin-ui .admin-payment-actions button,
+#admin-ui .view-btn,
+#admin-ui .view-application-btn {
+  min-height: 36px;
+  padding: 0 14px;
+  font-size: 13px;
+}
+
+/* Icon-only buttons (events) */
+#admin-ui .action-btn {
+  width: 38px;
+  min-height: 38px;
+  padding: 0;
+}
+
+/* =====================================================
+           LISTS
+           ===================================================== */
+
+#admin-ui .admin-list,
+#admin-ui .event-list,
+#admin-ui .admin-members-list,
+#admin-ui #admin-news-list,
+#admin-ui #admin-opportunities-list,
+#admin-ui #admin-revenue-list,
+#admin-ui #admin-contact-messages-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin: 0;
+}
+
+#admin-ui .admin-members-section {
+  margin: 0;
+}
+
+/* List item cards */
+#admin-ui .admin-list-card,
+#admin-ui .admin-opportunity-card,
+#admin-ui .admin-revenue-card,
+#admin-ui .admin-message-card,
+#admin-ui .admin-member-card,
+#admin-ui .event-item {
+  margin: 0;
+  padding: 20px 22px;
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border);
+  border-left: 4px solid var(--ui-gold);
+  border-radius: 12px;
+  box-shadow: none;
+  transform: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+#admin-ui .admin-list-card:hover,
+#admin-ui .admin-opportunity-card:hover,
+#admin-ui .admin-revenue-card:hover,
+#admin-ui .admin-message-card:hover,
+#admin-ui .admin-member-card:hover,
+#admin-ui .event-item:hover {
+  transform: none;
+  box-shadow: 0 6px 20px rgba(16, 24, 40, 0.07);
+}
+
+/* Cards with content on the left and actions on the right */
+#admin-ui .admin-opportunity-card,
+#admin-ui .event-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+#admin-ui .admin-opportunity-main,
+#admin-ui .event-info,
+#admin-ui .admin-list-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+#admin-ui .admin-list-card-header,
+#admin-ui .admin-revenue-card-header,
+#admin-ui .admin-message-header,
+#admin-ui .admin-member-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 10px;
+}
+
+#admin-ui .admin-list-card-header > div,
+#admin-ui .admin-revenue-card-header > div,
+#admin-ui .admin-message-header > div,
+#admin-ui .admin-member-card-header > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+#admin-ui .admin-revenue-card-header > div,
+#admin-ui .admin-message-header > div,
+#admin-ui .admin-member-card-header > div {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#admin-ui .admin-list-card h3,
+#admin-ui .admin-opportunity-card h4,
+#admin-ui .admin-revenue-card h3,
+#admin-ui .admin-message-card h3,
+#admin-ui .admin-member-card h3,
+#admin-ui .event-item h4 {
+  margin: 6px 0 8px;
+  color: var(--ui-navy);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+#admin-ui .admin-revenue-card h3,
+#admin-ui .admin-message-card h3,
+#admin-ui .admin-member-card h3 {
+  margin-bottom: 0;
+}
+
+#admin-ui .admin-list-card p,
+#admin-ui .admin-opportunity-main > p,
+#admin-ui .event-description {
+  margin: 0 0 8px;
+  color: var(--ui-muted);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+#admin-ui .admin-opportunity-main > p i {
+  width: 16px;
+  margin-right: 4px;
+  color: var(--ui-gold-dark);
+  text-align: center;
+}
+
+#admin-ui .admin-opportunity-description {
+  margin-top: 10px;
+  color: var(--ui-text);
+}
+
+/* Meta rows */
+#admin-ui .admin-list-card-meta,
+#admin-ui .admin-opportunity-meta,
+#admin-ui .event-meta,
+#admin-ui .admin-message-contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  margin: 12px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid #f0f1f3;
+  color: var(--ui-muted);
+  font-size: 13px;
+}
+
+#admin-ui .event-meta {
+  margin: 0 0 10px;
+  padding: 0;
+  border-top: none;
+}
+
+#admin-ui .admin-message-contact {
+  margin: 0 0 14px;
+  padding: 0;
+  border-top: none;
+}
+
+#admin-ui .admin-list-card-meta span,
+#admin-ui .admin-opportunity-meta span,
+#admin-ui .event-meta span,
+#admin-ui .admin-message-contact p {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+#admin-ui .admin-list-card-meta i,
+#admin-ui .admin-opportunity-meta i,
+#admin-ui .event-meta i,
+#admin-ui .admin-message-contact i {
+  color: var(--ui-gold-dark);
+}
+
+/* Action rows */
+#admin-ui .admin-action-buttons,
+#admin-ui .admin-message-actions,
+#admin-ui .admin-member-actions,
+#admin-ui .admin-payment-actions,
+#admin-ui .event-actions,
+#admin-ui .admin-opportunity-actions,
+#admin-ui .application-actions,
+#admin-ui .cv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0 0;
+}
+
+#admin-ui .admin-opportunity-card > .admin-action-buttons,
+#admin-ui .admin-opportunity-actions,
+#admin-ui .event-actions {
+  flex-shrink: 0;
+  justify-content: flex-end;
+  margin: 0;
+}
+
+#admin-ui .admin-closed-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: var(--ui-radius-sm);
+  background: var(--ui-subtle);
+  color: var(--ui-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Revenue */
+#admin-ui .admin-revenue-amount {
+  color: var(--ui-green);
+  font-size: 20px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+#admin-ui .admin-revenue-card-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px 20px;
+  margin: 14px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid #f0f1f3;
+  color: var(--ui-text);
+  font-size: 14px;
+}
+
+#admin-ui .admin-revenue-card-body strong,
+#admin-ui .admin-member-info > p strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--ui-muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Contact messages */
+#admin-ui .admin-message-date {
+  color: var(--ui-muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+#admin-ui .admin-message-content {
+  margin: 0;
+  padding: 14px 16px;
+  background: var(--ui-subtle);
+  border-radius: var(--ui-radius-sm);
+}
+
+#admin-ui .admin-message-content p {
+  margin: 0;
+  color: var(--ui-text);
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Members */
+#admin-ui .admin-member-card-header {
+  margin: 0;
+  padding: 0 0 14px;
+  border-bottom: 1px solid #f0f1f3;
+}
+
+#admin-ui .admin-member-actions {
+  margin: 14px 0;
+  padding: 0;
+  border: none;
+}
+
+#admin-ui .admin-member-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px 20px;
+  margin: 0;
+  padding: 16px 0 0;
+  border: none;
+  border-top: 1px solid #f0f1f3;
+  border-radius: 0;
+  overflow: visible;
+}
+
+#admin-ui .admin-member-info > p {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--ui-text);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+#admin-ui .admin-payment-actions,
+#admin-ui .member-id-section {
+  grid-column: 1 / -1;
+}
+
+#admin-ui .admin-payment-actions {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+#admin-ui .member-id-section {
+  margin: 6px 0 0;
+  padding: 16px 0 0;
+  border-top: 1px solid #f0f1f3;
+}
+
+#admin-ui .member-id-section h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  color: var(--ui-navy);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#admin-ui .member-id-section h4 i {
+  color: var(--ui-gold-dark);
+}
+
+#admin-ui .member-id-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 260px));
+  gap: 14px;
+}
+
+#admin-ui .member-id-image-box {
+  margin: 0;
+  padding: 10px;
+  background: var(--ui-subtle);
+  border: 1px solid var(--ui-border);
+  border-radius: 10px;
+}
+
+#admin-ui .member-id-image-box h5 {
+  margin: 0 0 8px;
+  color: var(--ui-muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+#admin-ui .member-id-image-box img {
+  display: block;
+  width: 100%;
+  height: 160px;
+  max-height: none;
+  object-fit: cover;
+  background: #e5e7eb;
+  border: none;
+  border-radius: 6px;
+}
+
+#admin-ui .member-id-image-box p {
+  margin: 0;
+  color: var(--ui-muted);
+  font-size: 13px;
+}
+
+/* =====================================================
+           BADGES
+           ===================================================== */
+
+#admin-ui .admin-status-badge,
+#admin-ui .admin-category-badge,
+#admin-ui .admin-opportunity-category,
+#admin-ui .admin-revenue-type,
+#admin-ui .member-status,
+#admin-ui .member-type,
+#admin-ui .admin-message-status,
+#admin-ui .event-status,
+#admin-ui .admin-status,
+#admin-ui td .status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: auto;
+  margin: 0;
+  padding: 4px 10px;
+  background: #eef2f7;
+  border: none;
+  border-radius: 999px;
+  color: var(--ui-navy);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+#admin-ui .admin-category-badge,
+#admin-ui .admin-opportunity-category,
+#admin-ui .admin-revenue-type,
+#admin-ui .member-type {
+  background: var(--ui-gold-soft);
+  color: #8a6a12;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+}
+
+#admin-ui .admin-status i {
+  font-size: 7px;
+}
+
+#admin-ui .event-status {
+  margin-top: 4px;
+}
+
+/* State colours */
+#admin-ui .admin-status.open,
+#admin-ui .admin-message-status.replied,
+#admin-ui [data-member-status="Active"] .member-status,
+#admin-ui td .status.status-hired {
+  background: var(--ui-green-soft);
+  color: var(--ui-green);
+}
+
+#admin-ui .admin-status.closed,
+#admin-ui .admin-message-status.read {
+  background: #f3f4f6;
+  color: var(--ui-muted);
+}
+
+#admin-ui .admin-message-status.new,
+#admin-ui [data-member-status="Pending"] .member-status,
+#admin-ui td .status.status-pending {
+  background: #fff7e6;
+  color: #9a6700;
+}
+
+#admin-ui [data-member-status="Rejected"] .member-status,
+#admin-ui td .status.status-rejected {
+  background: var(--ui-red-soft);
+  color: var(--ui-red);
+}
+
+#admin-ui td .status.status-shortlisted {
+  background: var(--ui-blue-soft);
+  color: var(--ui-blue);
+}
+
+/* =====================================================
+           TABLE (job applications)
+           ===================================================== */
+
+#admin-ui .table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--ui-border);
+  border-radius: 12px;
+}
+
+#admin-ui .table-wrapper table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+#admin-ui .table-wrapper th {
+  padding: 12px 16px;
+  background: var(--ui-subtle);
+  border-bottom: 1px solid var(--ui-border);
+  color: var(--ui-muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+#admin-ui .table-wrapper td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f0f1f3;
+  color: var(--ui-text);
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+#admin-ui .table-wrapper tbody tr:last-child td {
+  border-bottom: none;
+}
+
+#admin-ui .table-wrapper tbody tr:hover td {
+  background: #fbfcfd;
+}
+
+#admin-ui .table-wrapper td.message {
+  padding: 48px 20px;
+  color: var(--ui-muted);
+  text-align: center;
+}
+
+/* Application details modal */
+#admin-ui .application-modal-content {
+  border-radius: var(--ui-radius);
+}
+
+#admin-ui .status-control {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#admin-ui .status-control select {
+  width: auto;
+  min-width: 200px;
+  flex: 1;
+}
+
+/* =====================================================
+           EMPTY / LOADING / ERROR STATES
+           ===================================================== */
+
+#admin-ui .admin-empty-state,
+#admin-ui .admin-empty,
+#admin-ui .admin-error,
+#admin-ui .admin-loading,
+#admin-ui .empty-state {
+  margin: 0;
+  padding: 48px 24px;
+  background: var(--ui-subtle);
+  border: 1px dashed #d8dde5;
+  border-radius: 12px;
+  box-shadow: none;
+  color: var(--ui-muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+#admin-ui .admin-empty-state i,
+#admin-ui .admin-empty i,
+#admin-ui .admin-error i,
+#admin-ui .admin-loading i,
+#admin-ui .empty-state i {
+  display: block;
+  margin: 0 auto 12px;
+  color: var(--ui-gold);
+  font-size: 30px;
+}
+
+#admin-ui .admin-empty-state h3,
+#admin-ui .admin-empty h3,
+#admin-ui .admin-error h3 {
+  margin: 0 0 6px;
+  color: var(--ui-navy);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+#admin-ui .admin-empty-state p,
+#admin-ui .admin-empty p,
+#admin-ui .admin-error p,
+#admin-ui .empty-state p {
+  margin: 0;
+  color: var(--ui-muted);
+  font-size: 14px;
+}
+
+/* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+@media (max-width: 1100px) {
+  #admin-ui .admin-search-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  #admin-ui > main:not(.admin-dashboard) {
+    padding: 22px 16px 48px;
+  }
+
+  #admin-ui .admin-page-heading,
+  #admin-ui .page-title {
+    margin-bottom: 20px;
+  }
+
+  #admin-ui .admin-page-heading h1,
+  #admin-ui .admin-page-heading h2,
+  #admin-ui .page-title h1,
+  #admin-ui .page-title h2 {
+    font-size: 23px;
+  }
+
+  #admin-ui .admin-panel,
+  #admin-ui .admin-card,
+  #admin-ui .applications-card {
+    margin-bottom: 18px;
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+
+  #admin-ui .admin-panel-heading,
+  #admin-ui .list-header,
+  #admin-ui .applications-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+  }
+
+  #admin-ui .admin-panel-heading h2,
+  #admin-ui .admin-panel-heading h3,
+  #admin-ui .list-header h3,
+  #admin-ui .applications-header h3,
+  #admin-ui .admin-card > h3 {
+    font-size: 17px;
+  }
+
+  #admin-ui .admin-form-grid,
+  #admin-ui .form-grid,
+  #admin-ui .admin-search-controls {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  /* 16px stops iOS zooming into fields */
+  #admin-ui input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]),
+  #admin-ui select,
+  #admin-ui textarea {
+    font-size: 16px;
+  }
+
+  #admin-ui .admin-form-actions,
+  #admin-ui .form-actions,
+  #admin-ui .admin-search-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  #admin-ui .admin-form-actions > *,
+  #admin-ui .form-actions > *,
+  #admin-ui .admin-search-actions > * {
+    width: 100%;
+  }
+
+  #admin-ui .admin-opportunity-card,
+  #admin-ui .event-item {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  #admin-ui .admin-opportunity-card > .admin-action-buttons,
+  #admin-ui .admin-opportunity-actions,
+  #admin-ui .event-actions {
+    justify-content: flex-start;
+  }
+
+  #admin-ui .admin-list-card,
+  #admin-ui .admin-opportunity-card,
+  #admin-ui .admin-revenue-card,
+  #admin-ui .admin-message-card,
+  #admin-ui .admin-member-card,
+  #admin-ui .event-item {
+    padding: 16px;
+  }
+
+  #admin-ui .admin-member-info,
+  #admin-ui .admin-revenue-card-body {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #admin-ui .member-id-images {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+
+  #admin-ui .member-id-image-box img {
+    height: 120px;
+  }
+
+  /* Job applications table: each row becomes a stacked card */
+  #admin-ui .table-wrapper {
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+  }
+
+  #admin-ui .table-wrapper table,
+  #admin-ui .table-wrapper tbody,
+  #admin-ui .table-wrapper tr,
+  #admin-ui .table-wrapper td {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  #admin-ui .table-wrapper thead {
+    display: none;
+  }
+
+  #admin-ui .table-wrapper tbody {
+    display: grid;
+    gap: 12px;
+  }
+
+  #admin-ui .table-wrapper tr {
+    padding: 14px 16px;
+    background: var(--ui-surface);
+    border: 1px solid var(--ui-border);
+    border-left: 4px solid var(--ui-gold);
+    border-radius: 12px;
+  }
+
+  #admin-ui .table-wrapper td,
+  #admin-ui .table-wrapper tbody tr:last-child td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 7px 0;
+    border-bottom: 1px solid #f0f1f3;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  #admin-ui .table-wrapper td:last-child,
+  #admin-ui .table-wrapper tbody tr:last-child td:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  #admin-ui .table-wrapper tbody tr:hover td {
+    background: none;
+  }
+
+  #admin-ui .table-wrapper td::before {
+    flex-shrink: 0;
+    color: var(--ui-muted);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  #admin-ui .table-wrapper td:nth-child(1)::before { content: "Applicant"; }
+  #admin-ui .table-wrapper td:nth-child(2)::before { content: "Job"; }
+  #admin-ui .table-wrapper td:nth-child(3)::before { content: "Email"; }
+  #admin-ui .table-wrapper td:nth-child(4)::before { content: "Phone"; }
+  #admin-ui .table-wrapper td:nth-child(5)::before { content: "Education"; }
+  #admin-ui .table-wrapper td:nth-child(6)::before { content: "Status"; }
+  #admin-ui .table-wrapper td:nth-child(7)::before { content: "Action"; }
+
+  /* Loading / empty message row spans the whole card */
+  #admin-ui .table-wrapper td.message {
+    justify-content: center;
+    padding: 32px 0;
+    text-align: center;
+  }
+
+  #admin-ui .table-wrapper td.message::before {
+    content: none;
+  }
+}

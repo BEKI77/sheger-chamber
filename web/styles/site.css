@@ -3379,19 +3379,6 @@ section {
   font-size: 12px;
 }
 
-.admin-back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: 700;
-}
-
-.admin-back-link:hover {
-  color: #42e878;
-}
-
 .admin-main {
   min-height: 100vh;
   padding: 60px 20px;
@@ -4823,24 +4810,6 @@ section {
 
   font-size: 13px;
   font-weight: 500;
-}
-
-.admin-back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-
-  color: #ffffff;
-
-  text-decoration: none;
-
-  font-weight: 700;
-
-  transition: 0.2s ease;
-}
-
-.admin-back-link:hover {
-  color: #d4a72c;
 }
 
 /* ADMIN MAIN BACKGROUND */

@@ -80,17 +80,20 @@ export default function AdminMembers() {
             <main className="admin-members-page">
                 <div className="container">
                     {/* PAGE HEADING */}
-                    <div className="section-heading">
-                        <span className="section-label">ADMINISTRATION</span>
-                        <h1>Membership Management</h1>
+                    <div className="admin-page-heading">
+                        <span className="admin-section-label">
+                            <i className="fas fa-users"></i> Administration
+                        </span>
+                        <h2>Membership Management</h2>
                         <p>Review and manage Shagar Chamber membership applications.</p>
                     </div>
                     {/* ===================================================== SEARCH & FILTERING ===================================================== */}
-                    <section className="admin-search-section">
-                        <div className="admin-search-heading">
+                    <section className="admin-panel admin-search-section">
+                        <div className="admin-panel-heading admin-search-heading">
                             <div>
-                                <span className="section-label">SEARCH & FILTERING</span>
-                                <h2>Find Membership Applications</h2>
+                                <h3>
+                                    <i className="fas fa-filter"></i> Find Membership Applications
+                                </h3>
                                 <p>Search and filter membership applications quickly and easily.</p>
                             </div>
                         </div>

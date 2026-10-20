@@ -87,26 +87,12 @@ export default function AdminEvents() {
 
     return (
         <>
-            {/* ===================================================== HEADER ===================================================== */}
-            <header className="admin-header">
-                <div className="admin-header-inner">
-                    <div className="admin-brand">
-                        <div className="admin-logo">
-                            <i className="fas fa-calendar-days"></i>
-                        </div>
-                        <div>
-                            <h1>Shagar Chamber</h1>
-                            <span>EVENTS MANAGEMENT</span>
-                        </div>
-                    </div>
-                    <a href="/admin" className="dashboard-link">
-                        <i className="fas fa-chart-line"></i> Dashboard
-                    </a>
-                </div>
-            </header>
             {/* ===================================================== MAIN CONTENT ===================================================== */}
             <main className="admin-container">
-                <div className="page-title">
+                <div className="admin-page-heading">
+                    <span className="admin-section-label">
+                        <i className="fas fa-calendar-days"></i> Event Management
+                    </span>
                     <h2>Events Management</h2>
                     <p>Create and manage Shagar Chamber events.</p>
                 </div>

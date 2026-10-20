@@ -1,0 +1,237 @@
+/* =====================================================
+           ADMIN SHELL
+           Sidebar shared by every admin page. Scoped as a CSS
+           module so each page's own stylesheet cannot clash with it.
+           ===================================================== */
+
+.shell {
+  min-height: 100vh;
+}
+
+.shell *,
+.shell *::before,
+.shell *::after {
+  box-sizing: border-box;
+}
+
+/* =====================================================
+           SIDEBAR (wide screens: always visible)
+           ===================================================== */
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 900;
+
+  width: 250px;
+  height: 100vh;
+  height: 100dvh;
+
+  background: #0b1f3a;
+  color: white;
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: normal;
+
+  padding: 25px 15px;
+  overflow-y: auto;
+}
+
+.logo {
+  text-align: center;
+  padding-bottom: 25px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 25px;
+}
+
+.logoIcon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: #d4a72c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b1f3a;
+  font-size: 25px;
+}
+
+.logo h2 {
+  margin: 0 0 5px;
+  font-size: 20px;
+  color: white;
+}
+
+.logo span {
+  font-size: 12px;
+  color: #d4a72c;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav a {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px 14px;
+  color: #dce4ef;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.nav a:hover,
+.nav a.active {
+  background: #d4a72c;
+  color: #0b1f3a;
+}
+
+.nav a i {
+  width: 20px;
+  text-align: center;
+}
+
+.divider {
+  height: 1px;
+  margin: 10px 0;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.content {
+  margin-left: 250px;
+  min-height: 100vh;
+  min-width: 0;
+}
+
+/* Only used on small screens */
+.mobileBar,
+.closeButton,
+.backdrop {
+  display: none;
+}
+
+/* =====================================================
+           SMALL SCREENS: top bar + slide-in drawer
+           ===================================================== */
+
+@media (max-width: 900px) {
+  .mobileBar {
+    position: sticky;
+    top: 0;
+    z-index: 800;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    height: 60px;
+    padding: 0 12px;
+
+    background: #0b1f3a;
+    color: white;
+    font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+    line-height: normal;
+    border-bottom: 3px solid #d4a72c;
+  }
+
+  .menuButton,
+  .closeButton,
+  .mobileProfile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    font-size: 19px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .mobileProfile {
+    color: #d4a72c;
+  }
+
+  .mobileTitle {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobileTitle strong {
+    font-size: 16px;
+  }
+
+  .mobileTitle span {
+    font-size: 12px;
+    color: #d4a72c;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    background: rgba(11, 31, 58, 0.55);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+
+  .backdropVisible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .sidebar {
+    z-index: 1200;
+    width: min(280px, 85vw);
+    padding-top: 60px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: none;
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+    box-shadow: 8px 0 30px rgba(0, 0, 0, 0.35);
+  }
+
+  .closeButton {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+
+  .nav a {
+    padding: 14px;
+    font-size: 15px;
+  }
+
+  .content {
+    margin-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .backdrop {
+    transition: none;
+  }
+}

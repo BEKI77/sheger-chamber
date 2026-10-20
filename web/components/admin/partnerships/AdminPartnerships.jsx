@@ -86,23 +86,6 @@ export default function AdminPartnerships() {
 
     return (
         <>
-            {/* ===================================================== ADMIN HEADER ===================================================== */}
-            <header className="admin-header">
-                <div className="admin-container">
-                    <div className="admin-header-content">
-                        <div className="admin-brand">
-                            <i className="fa-solid fa-handshake"></i>
-                            <div>
-                                <h1>Shagar Chamber</h1>
-                                <span>Partnerships Management</span>
-                            </div>
-                        </div>
-                        <a href="/" className="admin-back-link">
-                            <i className="fa-solid fa-arrow-left"></i> Back to Website
-                        </a>
-                    </div>
-                </div>
-            </header>
             {/* ===================================================== MAIN CONTENT ===================================================== */}
             <main className="admin-main">
                 <div className="admin-container">
@@ -114,7 +97,7 @@ export default function AdminPartnerships() {
                     </div>
                     {/* ================================================= CREATE / EDIT FORM ================================================= */}
                     <section className="admin-panel">
-                        <div className="admin-panel-header">
+                        <div className="admin-panel-heading">
                             <div>
                                 <h3>Add Partnership</h3>
                                 <p>Enter the partner organization's information below.</p>
@@ -126,86 +109,88 @@ export default function AdminPartnerships() {
                             onSubmit={handleSubmit}
                             onReset={() => setEditingId(null)}
                         >
-                            {/* PARTNER NAME */}
-                            <div className="admin-form-group">
-                                <label htmlFor="partnerName">Partner Name</label>{" "}
-                                <input
-                                    type="text"
-                                    id="partnerName"
-                                    name="partnerName"
-                                    placeholder="Enter partner name"
-                                    required
-                                />
+                            <div className="admin-form-grid">
+                                {/* PARTNER NAME */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="partnerName">Partner Name</label>{" "}
+                                    <input
+                                        type="text"
+                                        id="partnerName"
+                                        name="partnerName"
+                                        placeholder="Enter partner name"
+                                        required
+                                    />
+                                </div>
+                                {/* PARTNER TYPE */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="partnerType">Partner Type</label>{" "}
+                                    <select id="partnerType" name="partnerType" required>
+                                        <option value="">Select partner type</option>
+                                        <option value="Government">Government</option>
+                                        <option value="Private Company">Private Company</option>
+                                        <option value="Bank">Bank / Financial Institution</option>
+                                        <option value="NGO">NGO / Development Organization</option>
+                                        <option value="Association">Association</option>
+                                        <option value="International Organization">International Organization</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                {/* STATUS */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="partnershipStatus">Status</label>{" "}
+                                    <select id="partnershipStatus" name="partnershipStatus">
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                    </select>
+                                </div>
+                                {/* LOGO */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="partnerLogo">Logo URL</label>{" "}
+                                    <input
+                                        type="url"
+                                        id="partnerLogo"
+                                        name="partnerLogo"
+                                        placeholder="https://example.com/logo.jpg"
+                                    />
+                                </div>
+                                {/* WEBSITE */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="partnerWebsite">Website URL</label>{" "}
+                                    <input
+                                        type="url"
+                                        id="partnerWebsite"
+                                        name="partnerWebsite"
+                                        placeholder="https://example.com"
+                                    />
+                                </div>
+                                {/* EMAIL */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="partnerEmail">Contact Email</label>{" "}
+                                    <input
+                                        type="email"
+                                        id="partnerEmail"
+                                        name="partnerEmail"
+                                        placeholder="partner@example.com"
+                                    />
+                                </div>
+                                {/* PHONE */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="partnerPhone">Contact Phone</label>{" "}
+                                    <input type="tel" id="partnerPhone" name="partnerPhone" placeholder="0912345678" />
+                                </div>
+                                {/* DESCRIPTION */}
+                                <div className="admin-form-group admin-form-full">
+                                    <label htmlFor="partnerDescription">Partnership Description</label>{" "}
+                                    <textarea
+                                        id="partnerDescription"
+                                        name="partnerDescription"
+                                        rows={6}
+                                        placeholder="Describe the partnership..."
+                                        required
+                                    />
+                                </div>
+                                {/* FORM BUTTONS */}
                             </div>
-                            {/* PARTNER TYPE */}
-                            <div className="admin-form-group">
-                                <label htmlFor="partnerType">Partner Type</label>{" "}
-                                <select id="partnerType" name="partnerType" required>
-                                    <option value="">Select partner type</option>
-                                    <option value="Government">Government</option>
-                                    <option value="Private Company">Private Company</option>
-                                    <option value="Bank">Bank / Financial Institution</option>
-                                    <option value="NGO">NGO / Development Organization</option>
-                                    <option value="Association">Association</option>
-                                    <option value="International Organization">International Organization</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                            {/* STATUS */}
-                            <div className="admin-form-group">
-                                <label htmlFor="partnershipStatus">Status</label>{" "}
-                                <select id="partnershipStatus" name="partnershipStatus">
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                </select>
-                            </div>
-                            {/* LOGO */}
-                            <div className="admin-form-group">
-                                <label htmlFor="partnerLogo">Logo URL</label>{" "}
-                                <input
-                                    type="url"
-                                    id="partnerLogo"
-                                    name="partnerLogo"
-                                    placeholder="https://example.com/logo.jpg"
-                                />
-                            </div>
-                            {/* WEBSITE */}
-                            <div className="admin-form-group">
-                                <label htmlFor="partnerWebsite">Website URL</label>{" "}
-                                <input
-                                    type="url"
-                                    id="partnerWebsite"
-                                    name="partnerWebsite"
-                                    placeholder="https://example.com"
-                                />
-                            </div>
-                            {/* EMAIL */}
-                            <div className="admin-form-group">
-                                <label htmlFor="partnerEmail">Contact Email</label>{" "}
-                                <input
-                                    type="email"
-                                    id="partnerEmail"
-                                    name="partnerEmail"
-                                    placeholder="partner@example.com"
-                                />
-                            </div>
-                            {/* PHONE */}
-                            <div className="admin-form-group">
-                                <label htmlFor="partnerPhone">Contact Phone</label>{" "}
-                                <input type="tel" id="partnerPhone" name="partnerPhone" placeholder="0912345678" />
-                            </div>
-                            {/* DESCRIPTION */}
-                            <div className="admin-form-group admin-form-full">
-                                <label htmlFor="partnerDescription">Partnership Description</label>{" "}
-                                <textarea
-                                    id="partnerDescription"
-                                    name="partnerDescription"
-                                    rows={6}
-                                    placeholder="Describe the partnership..."
-                                    required
-                                />
-                            </div>
-                            {/* FORM BUTTONS */}
                             <div className="admin-form-actions">
                                 <button type="submit" className="admin-primary-button">
                                     <i className={editingId ? "fa-solid fa-save" : "fa-solid fa-plus"}></i>{" "}
@@ -219,7 +204,7 @@ export default function AdminPartnerships() {
                     </section>
                     {/* ================================================= PARTNERSHIP LIST ================================================= */}
                     <section className="admin-panel">
-                        <div className="admin-panel-header">
+                        <div className="admin-panel-heading">
                             <div>
                                 <h3>Existing Partnerships</h3>
                                 <p>Manage partnerships currently stored in the system.</p>

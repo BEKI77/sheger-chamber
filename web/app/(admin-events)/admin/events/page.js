@@ -1,3 +1,4 @@
+import AdminShell from "@/components/admin/AdminShell";
 import AdminEvents from "@/components/admin/events/AdminEvents";
 
 export const metadata = {
@@ -5,5 +6,9 @@ export const metadata = {
 };
 
 export default function AdminEventsPage() {
-    return <AdminEvents />;
+    return (
+        <AdminShell>
+            <AdminEvents />
+        </AdminShell>
+    );
 }

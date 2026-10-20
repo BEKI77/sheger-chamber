@@ -57,23 +57,12 @@ export default function AdminJobApplications() {
 
     return (
         <>
-            {/* ========================================= ADMIN HEADER ========================================== */}
-            <header className="admin-header">
-                <div className="admin-header-inner">
-                    <div className="admin-brand">
-                        <div className="admin-logo">
-                            <i className="fas fa-file-user"></i>
-                        </div>
-                        <div>
-                            <h1>Shagar Chamber</h1>
-                            <span>Job Applications Management</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
             {/* ========================================= MAIN CONTENT ========================================== */}
             <main className="admin-container">
-                <div className="page-title">
+                <div className="admin-page-heading">
+                    <span className="admin-section-label">
+                        <i className="fas fa-file-lines"></i> Recruitment
+                    </span>
                     <h2>Job Applications</h2>
                     <p>Review and manage applications submitted for Chamber job opportunities.</p>
                 </div>

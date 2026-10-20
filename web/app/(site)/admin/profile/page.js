@@ -1,3 +1,4 @@
+import AdminShell from "@/components/admin/AdminShell";
 import AdminProfile from "@/components/admin/profile/AdminProfile";
 
 export const metadata = {
@@ -5,5 +6,9 @@ export const metadata = {
 };
 
 export default function AdminProfilePage() {
-    return <AdminProfile />;
+    return (
+        <AdminShell>
+            <AdminProfile />
+        </AdminShell>
+    );
 }

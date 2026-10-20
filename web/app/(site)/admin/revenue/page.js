@@ -1,3 +1,4 @@
+import AdminShell from "@/components/admin/AdminShell";
 import AdminRevenue from "@/components/admin/revenue/AdminRevenue";
 
 export const metadata = {
@@ -5,5 +6,9 @@ export const metadata = {
 };
 
 export default function AdminRevenuePage() {
-    return <AdminRevenue />;
+    return (
+        <AdminShell>
+            <AdminRevenue />
+        </AdminShell>
+    );
 }

@@ -73,23 +73,6 @@ export default function AdminProfile() {
 
     return (
         <>
-            {/* ===================================================== ADMIN HEADER ===================================================== */}
-            <header className="admin-header">
-                <div className="admin-header-inner">
-                    <div className="admin-brand">
-                        <div className="admin-logo">
-                            <i className="fas fa-user-gear"></i>
-                        </div>
-                        <div>
-                            <h1>Shagar Chamber</h1>
-                            <span>Profile Management</span>
-                        </div>
-                    </div>
-                    <a href="/admin" className="admin-back-link">
-                        <i className="fas fa-arrow-left"></i> Back to Dashboard
-                    </a>
-                </div>
-            </header>
             {/* ===================================================== MAIN ===================================================== */}
             <main className="admin-main">
                 <div className="admin-container">

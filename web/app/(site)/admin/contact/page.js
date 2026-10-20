@@ -1,3 +1,4 @@
+import AdminShell from "@/components/admin/AdminShell";
 import AdminContact from "@/components/admin/contact/AdminContact";
 
 export const metadata = {
@@ -5,5 +6,9 @@ export const metadata = {
 };
 
 export default function AdminContactPage() {
-    return <AdminContact />;
+    return (
+        <AdminShell>
+            <AdminContact />
+        </AdminShell>
+    );
 }
