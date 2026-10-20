@@ -80,7 +80,7 @@ export default function SiteHeader() {
                 <a href="#home" className="brand">
                     <div className="brand-logo">
                         <img
-                            src="/assets/images/shaggar-logo.png"
+                            src="/assets/images/shagar-logo.png"
                             alt="Shagar Chamber of Commerce & Sectoral Association Logo"
                         />
                     </div>

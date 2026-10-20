@@ -37,7 +37,7 @@ export default function Hero() {
                     <div className="hero-visual">
                         <div className="hero-image-wrapper">
                             <img
-                                src="/image/shaggar-chamber-hero.jpg"
+                                src="/image/shagar-chamber-hero.jpg"
                                 alt="Shagar Chamber of Commerce representatives"
                             />
                             <div className="hero-image-overlay"></div>
