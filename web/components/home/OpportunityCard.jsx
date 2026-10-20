@@ -16,9 +16,10 @@ export default function OpportunityCard({ opportunity }) {
         : "No deadline specified";
 
     const icon = CATEGORY_ICONS[opportunity.category] || "fa-briefcase";
+    const isClosed = opportunity.status !== "Open";
 
     return (
-        <article className="job-card">
+        <article className={`job-card${isClosed ? " job-card-closed" : ""}`}>
             <div className="job-card-icon">
                 <i className={`fas ${icon}`}></i>
             </div>
@@ -55,7 +56,7 @@ export default function OpportunityCard({ opportunity }) {
                     <span>
                         <i className="fas fa-calendar"></i> Deadline: {deadline}
                     </span>{" "}
-                    <span className="job-status">
+                    <span className={`job-status${isClosed ? " job-status-closed" : ""}`}>
                         <i className="fas fa-circle"></i> {opportunity.status}
                     </span>
                 </div>
@@ -75,7 +76,13 @@ export default function OpportunityCard({ opportunity }) {
                     </div>
                 )}
 
-                {opportunity.category === "Job" && (
+                {opportunity.category === "Job" && isClosed && (
+                    <span className="job-apply-button job-apply-button-closed">
+                        <i className="fas fa-lock"></i> Applications Closed
+                    </span>
+                )}
+
+                {opportunity.category === "Job" && !isClosed && (
                     <a href={`/job-application?id=${opportunity.id}`} className="job-apply-button">
                         <i className="fas fa-paper-plane"></i> Apply Now
                     </a>

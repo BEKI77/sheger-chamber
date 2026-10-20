@@ -85,7 +85,7 @@ export default function SiteHeader() {
                         />
                     </div>
                     <div className="brand-text">
-                        <span className="brand-name">Shagar Chamber</span>{" "}
+                        <span className="brand-name">Shaggar Chamber</span>{" "}
                         <span className="brand-subtitle">Commerce & Sectoral Association</span>
                     </div>
                 </a>{" "}

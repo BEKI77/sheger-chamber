@@ -3260,6 +3260,15 @@ section {
   font-size: 8px;
 }
 
+#opportunities-container .job-status-closed,
+#opportunities-container .job-status-closed i {
+  color: #b42318;
+}
+
+#opportunities-container .job-card-closed {
+  opacity: 0.75;
+}
+
 #opportunities-container .job-contact {
   display: flex;
   gap: 10px;
@@ -4740,6 +4749,15 @@ section {
 
 .job-apply-button i {
   font-size: 14px;
+}
+
+.job-apply-button-closed,
+.job-apply-button-closed:hover {
+  background: #e5e7eb;
+  color: #6b7280;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 /* =====================================================
    SHAGGAR CHAMBER

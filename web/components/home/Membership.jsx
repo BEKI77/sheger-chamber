@@ -1,9 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { uploadDirect } from "@/lib/directUpload";
 
 const MEMBERSHIP_FEES = { trader: "1,000 ETB", plc: "5,000 ETB" };
+
+// Totals shown before any applications were accepted online; each accepted
+// (Active) member or partnership from the admin side adds one to these
+const BASE_MEMBERS = 84000;
+const BASE_PARTNERSHIPS = 120;
 
 const PAYMENT_ACCOUNTS = {
     CBE: "1000546634551",
@@ -18,6 +23,19 @@ export default function Membership() {
     const [category, setCategory] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("");
     const [submitting, setSubmitting] = useState(false);
+    const [accepted, setAccepted] = useState({ members: 0, partnerships: 0 });
+
+    // The base numbers stay visible if the totals can't be loaded
+    useEffect(() => {
+        fetch("/api/stats")
+            .then((response) => response.json())
+            .then((result) => {
+                if (result.success) {
+                    setAccepted({ members: Number(result.members) || 0, partnerships: Number(result.partnerships) || 0 });
+                }
+            })
+            .catch((error) => console.error("Failed to load totals:", error));
+    }, []);
 
     const fee = MEMBERSHIP_FEES[category];
     const account = PAYMENT_ACCOUNTS[paymentMethod];
@@ -148,7 +166,7 @@ export default function Membership() {
                                 community.
                             </p>
                             <div className="membership-price">
-                                <strong>84,000</strong> <span>Membership</span>
+                                <strong>{(BASE_MEMBERS + accepted.members).toLocaleString("en-US")}</strong> <span>Membership</span>
                             </div>
                             <ul className="membership-benefits">
                                 <li>
@@ -185,7 +203,7 @@ export default function Membership() {
                                 For organizations and partners seeking deeper collaboration and business relationships.
                             </p>
                             <div className="membership-price">
-                                <strong>120</strong> <span>Partnership</span>
+                                <strong>{(BASE_PARTNERSHIPS + accepted.partnerships).toLocaleString("en-US")}</strong> <span>Partnership</span>
                             </div>
                             <ul className="membership-benefits">
                                 <li>

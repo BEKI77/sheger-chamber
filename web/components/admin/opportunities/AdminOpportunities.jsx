@@ -61,6 +61,20 @@ export default function AdminOpportunities() {
         }
     }
 
+    async function reopenOpportunity(opportunity, setBusy) {
+        if (!confirm("Are you sure you want to reopen this opportunity?")) return;
+        setBusy(true);
+        try {
+            await sendJson(`/api/opportunities/${opportunity.id}/reopen`, "PATCH", null, "Unable to reopen opportunity.");
+            alert("Opportunity reopened successfully.");
+            reload();
+        } catch (error) {
+            console.error("Reopen opportunity error:", error);
+            alert(error.message || "Unable to reopen opportunity.");
+            setBusy(false);
+        }
+    }
+
     async function deleteOpportunity(opportunity, setBusy) {
         if (!confirm("Are you sure you want to permanently delete this opportunity?")) return;
         setBusy(true);
@@ -231,6 +245,7 @@ export default function AdminOpportunities() {
                                         key={opportunity.id}
                                         opportunity={opportunity}
                                         onClose={closeOpportunity}
+                                        onReopen={reopenOpportunity}
                                         onDelete={deleteOpportunity}
                                     />
                                 ))}

@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
-// `busy` is "closing" or "deleting" while that request runs
-export default function OpportunityAdminCard({ opportunity, onClose, onDelete }) {
+// `busy` is "closing", "reopening" or "deleting" while that request runs
+export default function OpportunityAdminCard({ opportunity, onClose, onReopen, onDelete }) {
     const [busy, setBusy] = useState(null);
     const deadline = opportunity.application_deadline
         ? new Date(opportunity.application_deadline).toLocaleDateString("en-US", {
@@ -50,9 +50,15 @@ export default function OpportunityAdminCard({ opportunity, onClose, onDelete })
                         {busy === "closing" ? "Closing..." : "Close"}
                     </button>
                 ) : (
-                    <span className="admin-closed-label">
-                        <i className="fas fa-lock"></i> Closed
-                    </span>
+                    <button
+                        type="button"
+                        className="admin-close-button"
+                        disabled={busy === "reopening"}
+                        onClick={() => onReopen(opportunity, (on) => setBusy(on ? "reopening" : null))}
+                    >
+                        <i className={busy === "reopening" ? "fas fa-spinner fa-spin" : "fas fa-lock-open"}></i>{" "}
+                        {busy === "reopening" ? "Reopening..." : "Reopen"}
+                    </button>
                 )}{" "}
                 <button
                     type="button"

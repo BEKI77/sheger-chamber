@@ -5,7 +5,11 @@ import OpportunityCard from "./OpportunityCard";
 
 export default function Jobs() {
     const { status, items } = useApiList("/api/opportunities", "opportunities");
-    const openOpportunities = items.filter((opportunity) => opportunity.status === "Open");
+    // Closed opportunities stay listed (marked closed) after the open ones.
+    const visibleOpportunities = [
+        ...items.filter((opportunity) => opportunity.status === "Open"),
+        ...items.filter((opportunity) => opportunity.status === "Closed")
+    ];
 
     return (
         <>
@@ -29,15 +33,15 @@ export default function Jobs() {
                                 <p>Please try again later.</p>
                             </div>
                         )}
-                        {status === "ready" && !openOpportunities.length && (
+                        {status === "ready" && !visibleOpportunities.length && (
                             <div className="no-opportunities">
                                 <i className="fas fa-briefcase"></i>
                                 <h3>No Opportunities Available</h3>
-                                <p>There are currently no open opportunities. Please check back later.</p>
+                                <p>There are currently no opportunities. Please check back later.</p>
                             </div>
                         )}
                         {status === "ready" &&
-                            openOpportunities.map((opportunity) => (
+                            visibleOpportunities.map((opportunity) => (
                                 <OpportunityCard key={opportunity.id} opportunity={opportunity} />
                             ))}
                     </div>
