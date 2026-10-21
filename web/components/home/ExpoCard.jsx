@@ -8,24 +8,55 @@ export default function ExpoCard({ expo }) {
     const dateText = startDate && endDate ? `${startDate} - ${endDate}` : startDate;
 
     return (
-        <article className="sc-expo">
-            <img src={expo.image_url || defaultImage} alt={expo.title} />
-            <div className="sc-expo-body">
-                <div className="sc-expo-text">
-                    <span className="sc-expo-type">
-                        <i className={`fa-solid ${icon}`}></i> {expo.type}
-                    </span>
-                    <h3>{expo.title}</h3>
-                    <span className="sc-expo-meta">{[dateText, expo.location].filter(Boolean).join(" · ")}</span>
-                    {expo.description && <p className="sc-clamp">{expo.description}</p>}
+        <article className="expo-card">
+            <div className="expo-image">
+                <img src={expo.image_url || defaultImage} alt={expo.title} />
+                <div className="expo-image-overlay"></div>
+                <span className="expo-type">
+                    <i className={`fa-solid ${icon}`}></i> {expo.type}
+                </span>
+            </div>
+
+            <div className="expo-content">
+                <h3>{expo.title}</h3>{" "}
+                <span className="expo-subtitle">
+                    {isInternational
+                        ? "GLOBAL CONNECTIONS, PARTNERSHIPS & OPPORTUNITIES"
+                        : "SHOWCASING LOCAL BUSINESS, PRODUCTS & OPPORTUNITIES"}
+                </span>
+                <p>{expo.description}</p>
+                <div className="expo-features">
+                    {expo.location && (
+                        <ExpoFeature icon="fa-solid fa-location-dot" title="Location" text={expo.location} />
+                    )}
+                    {dateText && <ExpoFeature icon="fa-regular fa-calendar" title="Expo Dates" text={dateText} />}
+                    {expo.contact_email && (
+                        <ExpoFeature icon="fa-regular fa-envelope" title="Contact" text={expo.contact_email} />
+                    )}
+                    <ExpoFeature
+                        icon="fa-solid fa-chart-line"
+                        title="Business Opportunities"
+                        text="Discover new opportunities"
+                    />
                 </div>
-                <a
-                    href={expo.contact_email ? `mailto:${expo.contact_email}` : "#contact"}
-                    className="sc-btn sc-btn-primary"
-                >
-                    Contact Chamber
+                <a href="#contact" className="expo-button">
+                    Contact Chamber{" "}
+                    <span>
+                        <i className="fa-solid fa-arrow-right"></i>
+                    </span>
                 </a>
             </div>
         </article>
+    );
+}
+
+function ExpoFeature({ icon, title, text }) {
+    return (
+        <div className="expo-feature">
+            <i className={icon}></i>
+            <div>
+                <strong>{title}</strong> <small>{text}</small>
+            </div>
+        </div>
     );
 }

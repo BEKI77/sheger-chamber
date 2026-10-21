@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 
 // Cards that fade in the first time they scroll into view
-const REVEAL_SELECTOR = ".sc-tile, .sc-service, .sc-quick-action, .sc-membership-banner";
+const REVEAL_SELECTOR =
+    ".about-card, .value-card, .sector-card, .service-card, .job-card, " +
+    ".event-card, .news-card, .partnership-card, .expo-card";
 
 // Page-wide behaviour of the home page: smooth scrolling for # links,
 // card reveal animation and the back-to-top button.
@@ -66,7 +68,7 @@ export default function HomeEffects() {
     return (
         <button
             id="backToTop"
-            className={showBackToTop ? "sc-back-to-top show" : "sc-back-to-top"}
+            className={showBackToTop ? "back-to-top show" : "back-to-top"}
             aria-label="Back to top"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >

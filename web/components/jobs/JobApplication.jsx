@@ -105,7 +105,7 @@ export default function JobApplication() {
                         <h1>Shagar Chamber</h1>
                         <span>Commerce & Sectoral Association</span>
                     </div>
-                    <a href="/#opportunities" className="membership-button">
+                    <a href="/#jobs" className="membership-button">
                         <i className="fas fa-arrow-left"></i> Back to Jobs
                     </a>
                 </div>

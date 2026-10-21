@@ -1,67 +1,96 @@
-const LEADERS = [
-    ["/assets/images/president-mulgeta-mulisa.png", "Dr. Mulgeta Mulisa", "President"],
-    ["/assets/images/vice-president-adisu-fufa.png", "Engineer Adisu Fufa", "Vice President"]
-];
-
-const VALUES = ["Integrity", "Collaboration", "Innovation", "Professionalism", "Opportunity", "Growth"];
-
-// About, leadership, mission, vision and values as one bento grid
 export default function About() {
     return (
-        <section id="about" className="sc-section">
-            <div className="sc-container">
-                <span className="sc-eyebrow">About the Chamber</span>
-                <h2 className="sc-title sc-about-title">
-                    A platform for every business in Shaggar to connect, learn and grow.
-                </h2>
-
-                <div className="sc-bento">
-                    <div className="sc-tile sc-tile-wide sc-leadership">
-                        <div className="sc-leadership-intro">
-                            <span className="sc-eyebrow">Leadership</span>
-                            <p>
-                                The Chamber gives businesses across every sector a place to connect, exchange knowledge,
-                                discover markets and build partnerships — through networking, training, market
-                                connections and advocacy.
-                            </p>
+        <>
+            <section id="about" className="about-section">
+                <div className="container about-container">
+                    <div className="about-content">
+                        <span className="section-eyebrow">ABOUT SHAGGAR CHAMBER</span>
+                        <h2>
+                            Building a Stronger <span>Business Community</span>
+                        </h2>
+                        <p className="about-lead">
+                            Shagar Chamber of Commerce & Sectoral Association works to connect businesses, entrepreneurs
+                            and institutions with opportunities that support business development and economic growth.
+                        </p>
+                        <p>
+                            The Chamber provides a platform for businesses across different sectors to connect, exchange
+                            knowledge, discover markets, develop partnerships and access services that can strengthen
+                            their operations.
+                        </p>
+                        <p>
+                            Through business networking, information sharing, training, market connections, advocacy and
+                            collaboration, the Chamber seeks to contribute to a more productive and connected business
+                            environment.
+                        </p>
+                        <a href="#services" className="about-link">
+                            Discover Our Services <span>→</span>
+                        </a>
+                    </div>
+                    {/* CHAMBER LEADERSHIP */}
+                    <div className="about-leadership">
+                        <span className="section-eyebrow">OUR LEADERSHIP</span>
+                        <h3>Meet Our Leaders</h3>
+                        <div className="leadership-grid">
+                            <div className="leader-card">
+                                <div className="leader-image-wrapper">
+                                    <img
+                                        src="/assets/images/president-mulgeta-mulisa.png"
+                                        alt="Dr. Mulgeta Mulisa, President of Shagar Chamber"
+                                        className="leader-image"
+                                    />
+                                </div>
+                                <div className="leader-info">
+                                    <h4>Dr. Mulgeta Mulisa</h4>
+                                    <p>President</p>
+                                </div>
+                            </div>
+                            <div className="leader-card">
+                                <div className="leader-image-wrapper">
+                                    <img
+                                        src="/assets/images/vice-president-adisu-fufa.png"
+                                        alt="Engineer Adisu Fufa, Vice President of Shagar Chamber"
+                                        className="leader-image"
+                                    />
+                                </div>
+                                <div className="leader-info">
+                                    <h4>Engineer Adisu Fufa</h4>
+                                    <p>Vice President</p>
+                                </div>
+                            </div>
                         </div>
-                        {LEADERS.map(([image, name, role]) => (
-                            <figure key={name} className="sc-leader">
-                                <img src={image} alt={`${name}, ${role} of Shagar Chamber`} />
-                                <figcaption>
-                                    <strong>{name}</strong>
-                                    <span>{role}</span>
-                                </figcaption>
-                            </figure>
-                        ))}
                     </div>
-
-                    <div className="sc-tile sc-tile-green">
-                        <span className="sc-tile-label">Our mission</span>
-                        <p>
-                            To connect businesses, entrepreneurs and institutions with information, services, markets
-                            and partnerships that support business development and sustainable economic growth.
-                        </p>
-                    </div>
-
-                    <div className="sc-tile sc-tile-blue">
-                        <span className="sc-tile-label">Our vision</span>
-                        <p>
-                            A dynamic, connected business environment where enterprises grow, reach new markets and take
-                            part in sustainable economic development.
-                        </p>
-                    </div>
-
-                    <div className="sc-tile sc-tile-wide">
-                        <span className="sc-eyebrow">Our values</span>
-                        <ul className="sc-values">
-                            {VALUES.map((value) => (
-                                <li key={value}>{value}</li>
-                            ))}
-                        </ul>
+                    <div className="about-highlights">
+                        <div className="about-card about-card-featured">
+                            <div className="about-card-icon">◆</div>
+                            <div>
+                                <h3>Business Connection</h3>
+                                <p>Bringing businesses and stakeholders together to build meaningful connections.</p>
+                            </div>
+                        </div>
+                        <div className="about-card">
+                            <div className="about-card-icon">◆</div>
+                            <div>
+                                <h3>Market Opportunities</h3>
+                                <p>Supporting access to business, trade and market opportunities.</p>
+                            </div>
+                        </div>
+                        <div className="about-card">
+                            <div className="about-card-icon">◆</div>
+                            <div>
+                                <h3>Business Development</h3>
+                                <p>Encouraging enterprise growth, knowledge sharing and professional development.</p>
+                            </div>
+                        </div>
+                        <div className="about-card">
+                            <div className="about-card-icon">◆</div>
+                            <div>
+                                <h3>Partnership</h3>
+                                <p>Creating opportunities for collaboration between businesses and institutions.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </>
     );
 }
