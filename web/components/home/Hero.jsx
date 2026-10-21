@@ -1,57 +1,67 @@
+"use client";
+
+import { useChamberTotals } from "@/lib/useChamberTotals";
+
+const QUICK_ACTIONS = [
+    ["#membership", "Apply for membership", "Trader 1,000 ETB · PLC 5,000 ETB"],
+    ["#opportunities", "Browse jobs & opportunities", "Openings from member businesses"],
+    ["#events", "Events & expos", "National and international expos"]
+];
+
 export default function Hero() {
+    const totals = useChamberTotals();
+
     return (
-        <>
-            <section id="home" className="hero-section">
-                <div className="container hero-container">
-                    <div className="hero-content">
-                        <span className="hero-eyebrow">SHAGGAR CHAMBER OF COMMERCE & SECTORAL ASSOCIATION</span>
-                        <h1>
-                            Connecting Businesses. <span>Creating Opportunities.</span> Building Growth.
-                        </h1>
-                        <p className="hero-description">
-                            We connect businesses, entrepreneurs, investors and institutions to opportunities,
-                            partnerships, markets and services that support sustainable economic growth.
-                        </p>
-                        <div className="hero-buttons">
-                            <a href="#membership" className="btn btn-primary">
-                                Become a Member
-                            </a>{" "}
-                            <a href="#services" className="btn btn-secondary">
-                                Explore Services
-                            </a>
-                        </div>
-                        <div className="hero-trust">
-                            <div className="trust-item">
-                                <strong>Business</strong> <span>Connection</span>
-                            </div>
-                            <div className="trust-divider"></div>
-                            <div className="trust-item">
-                                <strong>Market</strong> <span>Opportunities</span>
-                            </div>
-                            <div className="trust-divider"></div>
-                            <div className="trust-item">
-                                <strong>Economic</strong> <span>Growth</span>
-                            </div>
-                        </div>
+        <section id="home" className="sc-hero">
+            <div className="sc-container sc-hero-grid">
+                <div className="sc-hero-content">
+                    <span className="sc-hero-pill">
+                        <span className="sc-dot"></span> Membership applications open online
+                    </span>
+                    <h1>
+                        Connecting businesses. <span>Creating opportunities.</span> Building growth.
+                    </h1>
+                    <p>
+                        Shaggar Chamber of Commerce &amp; Sectoral Association connects businesses, entrepreneurs,
+                        investors and institutions to markets, partners and services.
+                    </p>
+                    <div className="sc-hero-buttons">
+                        <a href="#membership" className="sc-btn sc-btn-primary sc-btn-lg">
+                            Become a member
+                        </a>
+                        <a href="#services" className="sc-btn sc-btn-ghost sc-btn-lg">
+                            Explore services
+                        </a>
                     </div>
-                    <div className="hero-visual">
-                        <div className="hero-image-wrapper">
-                            <img
-                                src="/image/shagar-chamber-hero.jpg"
-                                alt="Shagar Chamber of Commerce representatives"
-                            />
-                            <div className="hero-image-overlay"></div>
+                </div>
+
+                <div className="sc-hero-visual">
+                    <img src="/image/shagar-chamber-hero.jpg" alt="Shagar Chamber of Commerce representatives" />
+                    <div className="sc-hero-stats">
+                        <div>
+                            <strong>{totals.members}+</strong>
+                            <span>members</span>
                         </div>
-                        <div className="hero-highlight-card">
-                            <span className="highlight-icon">◆</span>
-                            <div>
-                                <strong>Business & Partnership</strong>
-                                <p>Building stronger connections</p>
-                            </div>
+                        <div>
+                            <strong>{totals.partnerships}+</strong>
+                            <span>partnerships</span>
                         </div>
                     </div>
                 </div>
-            </section>
-        </>
+            </div>
+
+            {/* Quick actions */}
+            <div className="sc-container sc-quick-actions">
+                {QUICK_ACTIONS.map(([href, title, text]) => (
+                    <a key={title} href={href} className="sc-quick-action">
+                        <span>
+                            <strong>{title}</strong>
+                            <small>{text}</small>
+                        </span>
+                        <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                ))}
+            </div>
+        </section>
     );
 }

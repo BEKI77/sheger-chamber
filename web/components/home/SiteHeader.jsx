@@ -1,21 +1,15 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import NewsNotifications from "./NewsNotifications";
 
 const NAV_LINKS = [
-    ["#home", "Home"],
     ["#about", "About"],
     ["#sectors", "Sectors"],
     ["#services", "Services"],
     ["#opportunities", "Opportunities"],
-    ["#jobs", "Jobs"],
-    ["#membership", "Membership"],
     ["#events", "Events"],
-    ["#expo", "Expo"],
-    ["#news", "News"],
-    ["#partnerships", "Partnerships"],
-    ["#contact", "Contact"]
+    ["#news", "News"]
 ];
 
 // Sections that highlight their link in the menu while on screen
@@ -70,62 +64,60 @@ export default function SiteHeader() {
         return () => observer.disconnect();
     }, []);
 
-    const linkClass = (href, base) =>
-        [base, href === "#" + activeSection ? "active" : null].filter(Boolean).join(" ") || undefined;
-
     return (
-        <header id="site-header" className={scrolled ? "scrolled" : undefined}>
-            <nav className="navbar">
+        <header id="site-header" className={scrolled ? "sc-header scrolled" : "sc-header"}>
+            <div className="sc-container sc-header-bar">
                 {/* Logo / Brand */}
-                <a href="#home" className="brand">
-                    <div className="brand-logo">
+                <a href="#home" className="sc-brand">
+                    <span className="sc-brand-logo">
                         <img
                             src="/assets/images/shagar-logo.png"
                             alt="Shagar Chamber of Commerce & Sectoral Association Logo"
                         />
-                    </div>
-                    <div className="brand-text">
-                        <span className="brand-name">Shaggar Chamber</span>{" "}
-                        <span className="brand-subtitle">Commerce & Sectoral Association</span>
-                    </div>
-                </a>{" "}
-                {/* Mobile Menu Button */}
-                <button
-                    ref={buttonRef}
-                    className="mobile-menu-button"
-                    id="mobile-menu-button"
-                    type="button"
-                    aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-                    aria-expanded={menuOpen ? "true" : "false"}
-                    onClick={() => setMenuOpen((open) => !open)}
-                >
-                    <span style={menuOpen ? { transform: "rotate(45deg) translate(5px, 5px)" } : undefined}></span>{" "}
-                    <span style={menuOpen ? { opacity: "0" } : undefined}></span>{" "}
-                    <span style={menuOpen ? { transform: "rotate(-45deg) translate(5px, -5px)" } : undefined}></span>
-                </button>
+                    </span>
+                    <span className="sc-brand-name">Shaggar Chamber</span>
+                </a>
+
                 {/* Navigation Links */}
-                <div
+                <nav
                     ref={menuRef}
-                    className={menuOpen ? "nav-menu active" : "nav-menu"}
-                    id="nav-menu"
+                    aria-label="Main"
+                    className={menuOpen ? "sc-nav open" : "sc-nav"}
                     onClick={(event) => {
                         if (event.target.closest("a")) setMenuOpen(false);
                     }}
                 >
                     {NAV_LINKS.map(([href, label]) => (
-                        <Fragment key={href}>
-                            <a href={href} className={linkClass(href)}>
-                                {label}
-                            </a>{" "}
-                        </Fragment>
+                        <a key={href} href={href} className={href === "#" + activeSection ? "active" : undefined}>
+                            {label}
+                        </a>
                     ))}
-                    <a href="#membership" className={linkClass("#membership", "nav-cta")}>
-                        Become a Member
+                    <a href="#contact" className="sc-nav-contact">
+                        Contact
                     </a>
+                </nav>
+
+                <div className="sc-header-actions">
+                    {/* News notifications */}
+                    <NewsNotifications />
+
+                    <a href="#membership" className="sc-btn sc-btn-primary sc-header-cta">
+                        Join the Chamber
+                    </a>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        ref={buttonRef}
+                        className="sc-menu-button"
+                        type="button"
+                        aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+                        aria-expanded={menuOpen ? "true" : "false"}
+                        onClick={() => setMenuOpen((open) => !open)}
+                    >
+                        <i className={menuOpen ? "fa-solid fa-xmark" : "fa-solid fa-bars"}></i>
+                    </button>
                 </div>
-                {/* News notifications */}
-                <NewsNotifications />
-            </nav>
+            </div>
         </header>
     );
 }

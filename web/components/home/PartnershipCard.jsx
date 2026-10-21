@@ -11,32 +11,22 @@ function partnerIcon(partnerType) {
 
 export default function PartnershipCard({ partnership }) {
     return (
-        <article className="partnership-card">
-            <div className="partnership-icon">
-                <i className={`fa-solid ${partnerIcon(partnership.partner_type)}`}></i>
+        <article className="sc-partner">
+            <div className="sc-partner-head">
+                <span className="sc-partner-icon">
+                    <i className={`fa-solid ${partnerIcon(partnership.partner_type)}`}></i>
+                </span>
+                <div>
+                    <h3>{partnership.partner_name}</h3>
+                    {partnership.partner_type && <span className="sc-partner-type">{partnership.partner_type}</span>}
+                </div>
             </div>
 
-            <span className="partnership-category">{partnership.partner_type}</span>
+            {partnership.description && <p className="sc-clamp">{partnership.description}</p>}
 
-            <h3>{partnership.partner_name}</h3>
-
-            <p>
-                {partnership.description ||
-                    "Working with Shagar Chamber to support business growth and economic opportunities."}
-            </p>
-
-            {partnership.website_url ? (
-                <a
-                    href={partnership.website_url}
-                    className="partnership-button"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Visit Partner <i className="fa-solid fa-arrow-right"></i>
-                </a>
-            ) : (
-                <a href="#contact" className="partnership-button">
-                    Connect With Us <i className="fa-solid fa-arrow-right"></i>
+            {partnership.website_url && (
+                <a href={partnership.website_url} className="sc-link" target="_blank" rel="noopener noreferrer">
+                    Visit partner <i className="fa-solid fa-arrow-up-right-from-square"></i>
                 </a>
             )}
         </article>

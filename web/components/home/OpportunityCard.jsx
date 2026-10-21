@@ -1,11 +1,3 @@
-const CATEGORY_ICONS = {
-    Job: "fa-briefcase",
-    "Business Opportunity": "fa-building",
-    Training: "fa-graduation-cap",
-    Tender: "fa-file-contract",
-    Other: "fa-circle-info"
-};
-
 export default function OpportunityCard({ opportunity }) {
     const deadline = opportunity.application_deadline
         ? new Date(opportunity.application_deadline).toLocaleDateString("en-US", {
@@ -15,78 +7,69 @@ export default function OpportunityCard({ opportunity }) {
           })
         : "No deadline specified";
 
-    const icon = CATEGORY_ICONS[opportunity.category] || "fa-briefcase";
+    const isJob = opportunity.category === "Job";
     const isClosed = opportunity.status !== "Open";
 
     return (
-        <article className={`job-card${isClosed ? " job-card-closed" : ""}`}>
-            <div className="job-card-icon">
-                <i className={`fas ${icon}`}></i>
+        <article className={isClosed ? "sc-opportunity closed" : "sc-opportunity"}>
+            <div className="sc-opportunity-tags">
+                <span className={isJob ? "sc-tag sc-tag-blue" : "sc-tag sc-tag-green"}>{opportunity.category}</span>
+                <span className={isClosed ? "sc-tag sc-tag-muted" : "sc-tag sc-tag-open"}>{opportunity.status}</span>
             </div>
 
-            <div className="job-card-content">
-                <span className="job-category">{opportunity.category}</span>
+            <h3>{opportunity.title}</h3>
 
-                <h3>{opportunity.title}</h3>
-
-                {opportunity.organization && (
-                    <p className="job-organization">
-                        <i className="fas fa-building"></i> {opportunity.organization}
-                    </p>
-                )}
-
-                {opportunity.location && (
-                    <p className="job-location">
-                        <i className="fas fa-location-dot"></i> {opportunity.location}
-                    </p>
-                )}
-
-                <p className="job-description">{opportunity.description}</p>
-
-                {opportunity.requirements && (
-                    <div className="job-requirements">
-                        <strong>
-                            <i className="fas fa-list-check"></i> Requirements
-                        </strong>{" "}
-                        <p>{opportunity.requirements}</p>
-                    </div>
-                )}
-
-                <div className="job-meta">
-                    <span>
-                        <i className="fas fa-calendar"></i> Deadline: {deadline}
-                    </span>{" "}
-                    <span className={`job-status${isClosed ? " job-status-closed" : ""}`}>
-                        <i className="fas fa-circle"></i> {opportunity.status}
-                    </span>
+            {(opportunity.organization || opportunity.location) && (
+                <div className="sc-meta">
+                    {opportunity.organization && (
+                        <span>
+                            <i className="fas fa-building"></i> {opportunity.organization}
+                        </span>
+                    )}
+                    {opportunity.location && (
+                        <span>
+                            <i className="fas fa-location-dot"></i> {opportunity.location}
+                        </span>
+                    )}
                 </div>
+            )}
 
-                {(opportunity.contact_email || opportunity.contact_phone) && (
-                    <div className="job-contact">
-                        {opportunity.contact_email && (
-                            <a href={`mailto:${opportunity.contact_email}`}>
-                                <i className="fas fa-envelope"></i> Contact
-                            </a>
-                        )}{" "}
-                        {opportunity.contact_phone && (
-                            <a href={`tel:${opportunity.contact_phone}`}>
-                                <i className="fas fa-phone"></i> Call
-                            </a>
-                        )}
-                    </div>
-                )}
+            {opportunity.description && <p className="sc-clamp">{opportunity.description}</p>}
 
-                {opportunity.category === "Job" && isClosed && (
-                    <span className="job-apply-button job-apply-button-closed">
-                        <i className="fas fa-lock"></i> Applications Closed
-                    </span>
-                )}
+            {opportunity.requirements && (
+                <details className="sc-requirements">
+                    <summary>Requirements</summary>
+                    <p>{opportunity.requirements}</p>
+                </details>
+            )}
 
-                {opportunity.category === "Job" && !isClosed && (
-                    <a href={`/job-application?id=${opportunity.id}`} className="job-apply-button">
-                        <i className="fas fa-paper-plane"></i> Apply Now
-                    </a>
-                )}
+            <div className="sc-opportunity-footer">
+                <span className="sc-deadline">
+                    <i className="fas fa-calendar"></i> Deadline: {deadline}
+                </span>
+
+                <div className="sc-opportunity-actions">
+                    {opportunity.contact_email && (
+                        <a href={`mailto:${opportunity.contact_email}`} className="sc-link">
+                            <i className="fas fa-envelope"></i> Contact
+                        </a>
+                    )}
+                    {opportunity.contact_phone && (
+                        <a href={`tel:${opportunity.contact_phone}`} className="sc-link">
+                            <i className="fas fa-phone"></i> Call
+                        </a>
+                    )}
+                    {isJob && isClosed && (
+                        <span className="sc-btn sc-btn-disabled">
+                            <i className="fas fa-lock"></i> Applications closed
+                        </span>
+                    )}
+                    {isJob && !isClosed && (
+                        <a href={`/job-application?id=${opportunity.id}`} className="sc-btn sc-btn-primary">
+                            Apply now
+                        </a>
+                    )}
+                </div>
             </div>
         </article>
     );
