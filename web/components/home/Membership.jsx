@@ -481,7 +481,7 @@ export default function Membership() {
                                             onChange={(event) => setCategory(event.target.value)}
                                         >
                                             <option value="">Select business type</option>
-                                            <option value="trader">Trader — 1,000 ETB</option>
+                                            <option value="trader">Sol Partnership — 1,000 ETB</option>
                                             <option value="plc">PLC — 5,000 ETB</option>
                                         </select>
                                     </div>
