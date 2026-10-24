@@ -109,6 +109,8 @@ export const jobApplications = pgTable("job_applications", {
     cover_letter: text("cover_letter"),
     cv_path: varchar("cv_path", { length: 500 }),
     status: varchar("status", { length: 30 }).default("Pending"),
+    // Set when an admin archives the application; null while it is active
+    archived_at: timestampColumn("archived_at"),
     created_at: createdAt()
 }).enableRLS();
 

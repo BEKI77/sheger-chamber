@@ -29,7 +29,7 @@ function Detail({ label, children }) {
     );
 }
 
-export default function ApplicationDetails({ application, onSaveStatus }) {
+export default function ApplicationDetails({ application, onSaveStatus, onSetArchived, onDelete }) {
     const [status, setStatus] = useState(application.status);
     const cvName = fileName(application.cv_path);
     const cvUrl = `/api/job-applications/cv/${encodeURIComponent(cvName)}`;
@@ -51,6 +51,9 @@ export default function ApplicationDetails({ application, onSaveStatus }) {
                 <div className="detail-grid">
                     <Detail label="Position">{application.job_title}</Detail>
                     <Detail label="Application Date">{formatDate(application.created_at)}</Detail>
+                    {application.archived_at && (
+                        <Detail label="Archived On">{formatDate(application.archived_at)}</Detail>
+                    )}
                 </div>
             </div>
 
@@ -102,6 +105,40 @@ export default function ApplicationDetails({ application, onSaveStatus }) {
                         <i className="fas fa-save"></i> Save Status
                     </button>
                 </div>
+            </div>
+
+            <div className="detail-section">
+                <h3>Archive</h3>
+                <p className="manage-note">
+                    {application.archived_at
+                        ? "This application is archived. Restore it to move it back to the active list."
+                        : "Archiving hides the application from the active list. It is kept and can be restored at any time."}
+                </p>
+                <button
+                    type="button"
+                    className="archive-action-btn"
+                    onClick={() => onSetArchived(application, !application.archived_at)}
+                >
+                    {application.archived_at ? (
+                        <>
+                            <i className="fas fa-box-open"></i> Restore Application
+                        </>
+                    ) : (
+                        <>
+                            <i className="fas fa-box-archive"></i> Archive Application
+                        </>
+                    )}
+                </button>
+            </div>
+
+            <div className="detail-section">
+                <h3>Delete</h3>
+                <p className="manage-note">
+                    Deleting removes the application and the applicant&apos;s CV entirely. This cannot be undone.
+                </p>
+                <button type="button" className="delete-action-btn" onClick={() => onDelete(application)}>
+                    <i className="fas fa-trash"></i> Delete Permanently
+                </button>
             </div>
         </>
     );
