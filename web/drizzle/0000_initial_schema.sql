@@ -76,6 +76,7 @@ CREATE TABLE "job_applications" (
 	"cover_letter" text,
 	"cv_path" varchar(500),
 	"status" varchar(30) DEFAULT 'Pending',
+	"archived_at" timestamp with time zone,
 	"created_at" timestamp with time zone DEFAULT now()
 );
 --> statement-breakpoint
