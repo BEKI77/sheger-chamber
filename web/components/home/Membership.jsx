@@ -13,7 +13,7 @@ const BASE_PARTNERSHIPS = 120;
 const PAYMENT_ACCOUNTS = {
     CBE: "1000546634551",
     CBO: "1023500127523",
-    Sinke: "10553476312216",
+    Sinkee: "10553476312216",
     Awash: "013031159104100"
 };
 
@@ -504,7 +504,7 @@ export default function Membership() {
                                             <option value="">Select payment method</option>
                                             <option value="CBE">CBE</option>
                                             <option value="CBO">CBO</option>
-                                            <option value="Sinke">Sinke</option>
+                                            <option value="Sinkee">Sinkee</option>
                                             <option value="Awash">Awash</option>
                                         </select>
                                     </div>
