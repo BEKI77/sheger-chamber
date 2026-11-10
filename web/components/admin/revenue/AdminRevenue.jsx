@@ -116,7 +116,7 @@ export default function AdminRevenue() {
                                         <option value="">Select payment method</option>
                                         <option value="CBE">CBE</option>
                                         <option value="CBO">CBO</option>
-                                        <option value="Sinkee">Sinkee</option>
+                                        <option value="Siinqee">Siinqee</option>
                                         <option value="Awash">Awash</option>
                                         <option value="Cash">Cash</option>
                                         <option value="Other">Other</option>
