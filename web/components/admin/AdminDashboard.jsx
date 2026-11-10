@@ -15,8 +15,11 @@ export default function AdminDashboard() {
 
     // Counts show 0 until loaded, like before
     const count = (list, include = () => true) => (list.status === "ready" ? list.items.filter(include).length : 0);
-    // Only approved members count; approving one raises the total
-    const isActiveMember = (member) => member.status === "Active";
+    // Only approved applications count; member and partnership applications
+    // share one list, so each type has its own total
+    const isPartnership = (member) => member.membership_type === "Partnership";
+    const isActiveMember = (member) => member.status === "Active" && !isPartnership(member);
+    const isActivePartnership = (member) => member.status === "Active" && isPartnership(member);
     const totalRevenue = revenue.status === "ready" ? sumAmounts(revenue.items).toLocaleString() + " ETB" : "0 ETB";
     const adminName = (admin && (admin.fullName || admin.email)) || "Administrator";
 
@@ -51,6 +54,15 @@ export default function AdminDashboard() {
                             </div>
                             <div className="stat-info">
                                 <span>Total Members</span> <strong id="total-members">{count(members, isActiveMember)}</strong>
+                            </div>
+                        </div>
+                        <div className="stat-card">
+                            <div className="stat-icon">
+                                <i className="fas fa-handshake"></i>
+                            </div>
+                            <div className="stat-info">
+                                <span>Total Partnerships</span>{" "}
+                                <strong id="total-partnerships">{count(members, isActivePartnership)}</strong>
                             </div>
                         </div>
                         <div className="stat-card">
