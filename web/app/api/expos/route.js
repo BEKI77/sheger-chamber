@@ -14,7 +14,7 @@ export const GET = route(async () => {
 export const POST = route(async (request) => {
     await requireAdmin();
     const values = expoValues(await readJson(request));
-    if (!values) return fail(400, "Title, type and description are required (plus a registration date for International Expos)");
+    if (!values) return fail(400, "Title, type and description are required, plus registration start and end dates for International Expos (end on or after start)");
     const result = await db.insert(expos).values(values).returning({ id: expos.id });
     return json({ success: true, message: "Expo created successfully", expoId: insertId(result) }, 201);
 });

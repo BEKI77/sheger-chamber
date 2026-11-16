@@ -16,7 +16,8 @@ const FIELDS = {
     location: "expoLocation",
     start_date: "expoStartDate",
     end_date: "expoEndDate",
-    registration_date: "expoRegistrationDate",
+    registration_start_date: "expoRegistrationStart",
+    registration_end_date: "expoRegistrationEnd",
     contact_email: "expoEmail",
     contact_phone: "expoPhone",
     status: "expoStatus"
@@ -27,8 +28,10 @@ export default function AdminExpo() {
     const expos = useApiList("/api/expos", "expos");
     // The same form creates new expos and edits existing ones
     const [editingId, setEditingId] = useState(null);
-    // Selected expo type: the registration date is required only for International Expos
+    // Selected expo type: the registration dates are required only for International Expos
     const [expoType, setExpoType] = useState("");
+    // Registration start, so the end date picker can't go before it
+    const [registrationStart, setRegistrationStart] = useState("");
     const registrationRequired = expoType === "International Expo";
     const reload = () => expos.reload({ showLoading: true });
 
@@ -63,7 +66,8 @@ export default function AdminExpo() {
                 expoStatus: item.status || "Upcoming",
                 expoStartDate: dateInputValue(item.start_date),
                 expoEndDate: dateInputValue(item.end_date),
-                expoRegistrationDate: dateInputValue(item.registration_date),
+                expoRegistrationStart: dateInputValue(item.registration_start_date),
+                expoRegistrationEnd: dateInputValue(item.registration_end_date),
                 expoEmail: item.contact_email,
                 expoPhone: item.contact_phone,
                 expoImage: item.image_url,
@@ -71,6 +75,7 @@ export default function AdminExpo() {
             });
             setEditingId(item.id);
             setExpoType(item.type || "");
+            setRegistrationStart(dateInputValue(item.registration_start_date));
             form.scrollIntoView({ behavior: "smooth", block: "start" });
         } catch (error) {
             console.error("Expo editing error:", error);
@@ -119,6 +124,7 @@ export default function AdminExpo() {
                             onReset={() => {
                                 setEditingId(null);
                                 setExpoType("");
+                                setRegistrationStart("");
                             }}
                         >
                             <div className="admin-form-grid">
@@ -177,15 +183,28 @@ export default function AdminExpo() {
                                     <label htmlFor="expoEndDate">End Date</label>{" "}
                                     <input type="date" id="expoEndDate" name="end_date" />
                                 </div>
-                                {/* REGISTRATION DATE (required for International, optional for National) */}
+                                {/* REGISTRATION START / END (required for International, optional for National) */}
                                 <div className="admin-form-group">
-                                    <label htmlFor="expoRegistrationDate">
-                                        Registration Date{registrationRequired ? "" : " (optional)"}
+                                    <label htmlFor="expoRegistrationStart">
+                                        Registration Start Date{registrationRequired ? "" : " (optional)"}
                                     </label>{" "}
                                     <input
                                         type="date"
-                                        id="expoRegistrationDate"
-                                        name="registration_date"
+                                        id="expoRegistrationStart"
+                                        name="registration_start_date"
+                                        required={registrationRequired}
+                                        onChange={(event) => setRegistrationStart(event.target.value)}
+                                    />
+                                </div>
+                                <div className="admin-form-group">
+                                    <label htmlFor="expoRegistrationEnd">
+                                        Registration End Date{registrationRequired ? "" : " (optional)"}
+                                    </label>{" "}
+                                    <input
+                                        type="date"
+                                        id="expoRegistrationEnd"
+                                        name="registration_end_date"
+                                        min={registrationStart || undefined}
                                         required={registrationRequired}
                                     />
                                 </div>

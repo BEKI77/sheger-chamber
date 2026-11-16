@@ -39,10 +39,14 @@ export function eventValues(body) {
 }
 
 // Used by POST /api/expos and PUT /api/expos/[id]; returns null when required fields are missing.
-// The registration date is required for International Expos and optional for National ones.
+// The registration start and end dates are required for International Expos and optional for National ones,
+// and the end may not come before the start.
 export function expoValues(body) {
     if (!body.title || !body.type || !body.description) return null;
-    if (body.type === "International Expo" && !dateOrNull(body.registration_date)) return null;
+    const registrationStart = dateOrNull(body.registration_start_date);
+    const registrationEnd = dateOrNull(body.registration_end_date);
+    if (body.type === "International Expo" && (!registrationStart || !registrationEnd)) return null;
+    if (registrationStart && registrationEnd && registrationEnd < registrationStart) return null;
     return {
         title: body.title,
         type: body.type,
@@ -51,7 +55,8 @@ export function expoValues(body) {
         location: body.location || null,
         start_date: dateOrNull(body.start_date),
         end_date: dateOrNull(body.end_date),
-        registration_date: dateOrNull(body.registration_date),
+        registration_start_date: registrationStart,
+        registration_end_date: registrationEnd,
         contact_email: body.contact_email || null,
         contact_phone: body.contact_phone || null,
         status: body.status || "Upcoming"

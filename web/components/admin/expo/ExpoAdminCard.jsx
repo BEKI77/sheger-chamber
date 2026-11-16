@@ -1,9 +1,7 @@
 export default function ExpoAdminCard({ expo, onEdit, onDelete }) {
     const startDate = expo.start_date ? new Date(expo.start_date).toLocaleDateString() : "Not set";
     const endDate = expo.end_date ? new Date(expo.end_date).toLocaleDateString() : "Not set";
-    const registrationDate = expo.registration_date
-        ? new Date(expo.registration_date).toLocaleDateString()
-        : null;
+    const registrationText = dateRange(expo.registration_start_date, expo.registration_end_date);
 
     return (
         <article className="admin-list-card" data-expo-id={expo.id}>
@@ -26,9 +24,9 @@ export default function ExpoAdminCard({ expo, onEdit, onDelete }) {
                         <i className="fa-regular fa-calendar"></i> {startDate}
                         {expo.end_date ? ` - ${endDate}` : ""}
                     </span>{" "}
-                    {registrationDate && (
+                    {registrationText && (
                         <span>
-                            <i className="fa-regular fa-calendar-check"></i> Registration: {registrationDate}
+                            <i className="fa-regular fa-calendar-check"></i> Registration: {registrationText}
                         </span>
                     )}{" "}
                     {expo.contact_email && (
@@ -48,4 +46,10 @@ export default function ExpoAdminCard({ expo, onEdit, onDelete }) {
             </div>
         </article>
     );
+}
+
+// "start - end", or whichever one is set, or "" when neither is
+function dateRange(start, end) {
+    const format = (value) => (value ? new Date(value).toLocaleDateString() : "");
+    return [format(start), format(end)].filter(Boolean).join(" - ");
 }
