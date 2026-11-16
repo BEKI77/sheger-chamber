@@ -1,0 +1,55 @@
+.box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.preview,
+.placeholder {
+    width: 120px;
+    height: 90px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.preview {
+    object-fit: cover;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: #f4f4f4;
+}
+
+.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed rgba(0, 0, 0, 0.25);
+    color: rgba(0, 0, 0, 0.35);
+    font-size: 28px;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* The styled button opens the picker; the native input stays reachable for the label */
+.file {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.error {
+    color: #c0392b;
+}

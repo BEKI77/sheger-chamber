@@ -1,4 +1,5 @@
-// Uploaded files (national ID photos, payment receipts, CVs).
+// Uploaded files: national ID photos, payment receipts and CVs (private), and
+// the pictures admins add to events, expos, news and partnerships (public).
 // With SUPABASE_URL and SUPABASE_SECRET_KEY set, files go to a private
 // Supabase Storage bucket (needed online: hosts like Vercel have no lasting
 // disk). Otherwise they are saved under UPLOAD_DIR (default ./uploads).
@@ -46,19 +47,26 @@ const BUCKET_SETTINGS = {
     allowedMimeTypes: [...Object.keys(IMAGE_TYPES), ...Object.keys(CV_TYPES)]
 };
 
-let bucketReady = null;
-function ensureBucket() {
-    bucketReady ??= supabase.storage.getBucket(BUCKET_NAME).then(async ({ error }) => {
-        const { error: saveError } = error
-            ? await supabase.storage.createBucket(BUCKET_NAME, BUCKET_SETTINGS)
-            : await supabase.storage.updateBucket(BUCKET_NAME, BUCKET_SETTINGS);
-        if (saveError) {
-            bucketReady = null;
-            console.error("Could not set up storage bucket:", saveError.message);
-        }
-    });
-    return bucketReady;
+// Create the bucket the first time, or bring its settings up to date
+const bucketsReady = new Map();
+function setUpBucket(name, settings) {
+    if (!bucketsReady.has(name)) {
+        bucketsReady.set(
+            name,
+            supabase.storage.getBucket(name).then(async ({ error }) => {
+                const { error: saveError } = error
+                    ? await supabase.storage.createBucket(name, settings)
+                    : await supabase.storage.updateBucket(name, settings);
+                if (saveError) {
+                    bucketsReady.delete(name);
+                    console.error("Could not set up storage bucket:", saveError.message);
+                }
+            })
+        );
+    }
+    return bucketsReady.get(name);
 }
+const ensureBucket = () => setUpBucket(BUCKET_NAME, BUCKET_SETTINGS);
 
 const newFileName = (ext) => `${Date.now()}-${crypto.randomInt(1e9)}${ext}`;
 const STORED_NAME = /^\d{13}-\d{1,9}\.[a-z]{3,4}$/;
@@ -170,4 +178,134 @@ export async function deleteStoredFile(folder, filename) {
         const { error } = await supabase.storage.from(BUCKET_NAME).remove([`${folder}/${safeName}`]);
         if (error) throw error;
     }
+}
+
+// ---------------------------------------------------------------------------
+// Public site images (event, expo, news and partnership pictures).
+// With Supabase they go to a public bucket and are shown straight from its
+// links; otherwise they are saved under UPLOAD_DIR/site-images and served by
+// GET /api/images/[folder]/[filename]. Either way the database keeps the URL.
+
+const PUBLIC_BUCKET_NAME = process.env.SUPABASE_PUBLIC_BUCKET || "shaggar-site-images";
+const PUBLIC_DIR = "site-images";
+export const IMAGE_FOLDERS = ["events", "expos", "news", "partnerships"];
+const IMAGE_MESSAGE = "Only JPG, PNG and WEBP images are allowed.";
+
+const PUBLIC_BUCKET_SETTINGS = {
+    public: true,
+    fileSizeLimit: MAX_FILE_SIZE,
+    allowedMimeTypes: Object.keys(IMAGE_TYPES)
+};
+
+function imageFolder(folder) {
+    if (!IMAGE_FOLDERS.includes(folder)) throw new HttpError(400, "Invalid image folder.");
+    return folder;
+}
+
+const publicImageUrl = (folder, filename) =>
+    supabase.storage.from(PUBLIC_BUCKET_NAME).getPublicUrl(`${folder}/${filename}`).data.publicUrl;
+
+// Check an image the admin's browser is about to upload ({ type, size }) and
+// return { signedUrl, url }: a one-time link to upload it straight to the
+// public bucket, and the lasting link to save with the record.
+export async function signImageUpload({ type, size }, folder) {
+    imageFolder(folder);
+    const ext = IMAGE_TYPES[type];
+    if (!ext) throw new HttpError(400, IMAGE_MESSAGE);
+    if (!(size > 0)) throw new HttpError(400, "The selected file is empty.");
+    if (size > MAX_FILE_SIZE) throw new HttpError(400, "File is too large. The maximum size is 5 MB.");
+
+    await setUpBucket(PUBLIC_BUCKET_NAME, PUBLIC_BUCKET_SETTINGS);
+    const filename = newFileName(ext);
+    const { data, error } = await supabase.storage
+        .from(PUBLIC_BUCKET_NAME)
+        .createSignedUploadUrl(`${folder}/${filename}`);
+    if (error) {
+        console.error("Could not create image upload link:", error.message);
+        throw new HttpError(500, "Could not prepare the upload. Please try again.");
+    }
+    return { signedUrl: data.signedUrl, url: publicImageUrl(folder, filename) };
+}
+
+// Save an image File sent to the app; returns its lasting URL.
+export async function saveImage(file, folder) {
+    imageFolder(folder);
+    const checked = checkUpload(file, IMAGE_TYPES, IMAGE_MESSAGE);
+    if (!checked) throw new HttpError(400, "Please choose an image to upload.");
+    const filename = newFileName(checked.ext);
+    const buffer = Buffer.from(await file.arrayBuffer());
+
+    if (supabase) {
+        await setUpBucket(PUBLIC_BUCKET_NAME, PUBLIC_BUCKET_SETTINGS);
+        const { error } = await supabase.storage
+            .from(PUBLIC_BUCKET_NAME)
+            .upload(`${folder}/${filename}`, buffer, { contentType: file.type });
+        if (error) {
+            console.error("Image upload failed:", error.message);
+            throw new HttpError(500, "Could not save the image. Please try again.");
+        }
+        return publicImageUrl(folder, filename);
+    }
+
+    const dir = path.join(/*turbopackIgnore: true*/ UPLOAD_DIR, PUBLIC_DIR, folder);
+    await fs.mkdir(/*turbopackIgnore: true*/ dir, { recursive: true });
+    await fs.writeFile(/*turbopackIgnore: true*/ path.join(dir, filename), buffer);
+    return `/api/images/${folder}/${filename}`;
+}
+
+// Answer with an image saved on local disk (used without Supabase).
+export async function localImageResponse(folder, filename) {
+    const notFound = () => new Response("Not found", { status: 404 });
+    if (!IMAGE_FOLDERS.includes(folder) || !STORED_NAME.test(filename || "")) return notFound();
+    const type = CONTENT_TYPES[path.extname(filename).toLowerCase()];
+    if (!type?.startsWith("image/")) return notFound();
+    try {
+        const buffer = await fs.readFile(/*turbopackIgnore: true*/ path.join(UPLOAD_DIR, PUBLIC_DIR, folder, filename));
+        return new Response(buffer, {
+            headers: {
+                "Content-Type": type,
+                // Stored names are never reused, so the file never changes
+                "Cache-Control": "public, max-age=31536000, immutable",
+                "X-Content-Type-Options": "nosniff"
+            }
+        });
+    } catch {
+        return notFound();
+    }
+}
+
+// Which uploaded image a URL points at, as { folder, filename }, or null when
+// it isn't one of ours (e.g. an image URL pasted before uploads existed).
+function storedImage(url) {
+    if (typeof url !== "string" || !url) return null;
+    let rest = null;
+    if (url.startsWith("/api/images/")) {
+        rest = url.slice("/api/images/".length);
+    } else if (supabase) {
+        try {
+            const parsed = new URL(url);
+            const prefix = `/storage/v1/object/public/${PUBLIC_BUCKET_NAME}/`;
+            if (parsed.origin === new URL(process.env.SUPABASE_URL).origin && parsed.pathname.startsWith(prefix)) {
+                rest = parsed.pathname.slice(prefix.length);
+            }
+        } catch {}
+    }
+    const [folder, filename, extra] = (rest || "").split("/");
+    if (extra !== undefined || !IMAGE_FOLDERS.includes(folder) || !STORED_NAME.test(filename || "")) return null;
+    return { folder, filename };
+}
+
+export const isStoredImage = (url) => Boolean(storedImage(url));
+
+// Delete an uploaded image by its URL. URLs that aren't ours are ignored.
+export async function deleteStoredImage(url) {
+    const image = storedImage(url);
+    if (!image) return;
+    const { folder, filename } = image;
+    if (url.startsWith("/api/images/")) {
+        await fs.rm(/*turbopackIgnore: true*/ path.join(UPLOAD_DIR, PUBLIC_DIR, folder, filename), { force: true });
+        return;
+    }
+    const { error } = await supabase.storage.from(PUBLIC_BUCKET_NAME).remove([`${folder}/${filename}`]);
+    if (error) throw error;
 }

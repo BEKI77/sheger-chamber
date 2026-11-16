@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAdminSession } from "@/lib/adminSession";
 import { useApiList } from "@/lib/useApiList";
 import { sendJson } from "@/lib/adminApi";
+import ImageUpload from "@/components/admin/ImageUpload";
 import { fillFields, readFields } from "@/lib/forms";
 import PartnershipAdminCard from "./PartnershipAdminCard";
 
@@ -144,15 +145,7 @@ export default function AdminPartnerships() {
                                     </select>
                                 </div>
                                 {/* LOGO */}
-                                <div className="admin-form-group">
-                                    <label htmlFor="partnerLogo">Logo URL</label>{" "}
-                                    <input
-                                        type="url"
-                                        id="partnerLogo"
-                                        name="partnerLogo"
-                                        placeholder="https://example.com/logo.jpg"
-                                    />
-                                </div>
+                                <ImageUpload id="partnerLogo" name="partnerLogo" label="Partner Logo" folder="partnerships" />
                                 {/* WEBSITE */}
                                 <div className="admin-form-group">
                                     <label htmlFor="partnerWebsite">Website URL</label>{" "}

@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useAdminSession } from "@/lib/adminSession";
 import { useApiList } from "@/lib/useApiList";
 import { sendJson } from "@/lib/adminApi";
+import ImageUpload from "@/components/admin/ImageUpload";
 import { fillFields, readFields } from "@/lib/forms";
 import NewsAdminCard from "./NewsAdminCard";
 
@@ -175,11 +176,12 @@ export default function AdminNews() {
                                     <input type="text" id="newsAuthor" placeholder="Author name" />
                                 </div>
                                 {/* IMAGE URL */}
-                                <div className="admin-form-group admin-form-full">
-                                    <label htmlFor="newsImage">Image URL</label>{" "}
-                                    <input type="url" id="newsImage" placeholder="https://example.com/image.jpg" />{" "}
-                                    <small>We will add direct image uploads later.</small>
-                                </div>
+                                <ImageUpload
+                                    id="newsImage"
+                                    label="News Image"
+                                    folder="news"
+                                    groupClassName="admin-form-group admin-form-full"
+                                />
                                 {/* EXCERPT */}
                                 <div className="admin-form-group admin-form-full">
                                     <label htmlFor="newsExcerpt">Short Summary</label>{" "}
@@ -268,10 +270,12 @@ export default function AdminNews() {
                                     <input type="text" id="editNewsAuthor" placeholder="Author name" />
                                 </div>
                                 {/* IMAGE URL */}
-                                <div className="admin-form-group admin-form-full">
-                                    <label htmlFor="editNewsImage">Image URL</label>{" "}
-                                    <input type="url" id="editNewsImage" placeholder="https://example.com/image.jpg" />
-                                </div>
+                                <ImageUpload
+                                    id="editNewsImage"
+                                    label="News Image"
+                                    folder="news"
+                                    groupClassName="admin-form-group admin-form-full"
+                                />
                                 {/* EXCERPT */}
                                 <div className="admin-form-group admin-form-full">
                                     <label htmlFor="editNewsExcerpt">Short Summary</label>{" "}

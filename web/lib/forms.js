@@ -13,7 +13,13 @@ export function readFields(form, ids) {
 export function fillFields(form, values) {
     for (const [id, value] of Object.entries(values)) {
         const element = form.querySelector(`#${id}`);
-        if (element) element.value = value ?? "";
+        if (!element) continue;
+        // <ImageUpload> keeps its URL in React state: tell it about the new value
+        if (element.dataset.imageUpload !== undefined) {
+            element.dispatchEvent(new CustomEvent("imageupload:set", { detail: value ?? "" }));
+        } else {
+            element.value = value ?? "";
+        }
     }
 }
 

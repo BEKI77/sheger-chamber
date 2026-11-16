@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAdminSession } from "@/lib/adminSession";
 import { useApiList } from "@/lib/useApiList";
 import { sendJson } from "@/lib/adminApi";
+import ImageUpload from "@/components/admin/ImageUpload";
 import { dateInputValue, fillFields, readFields } from "@/lib/forms";
 import EventItem from "./EventItem";
 
@@ -138,10 +139,7 @@ export default function AdminEvents() {
                                 <input type="text" id="location" name="location" placeholder="Enter event location" />
                             </div>
                             {/* IMAGE */}
-                            <div className="form-group">
-                                <label htmlFor="imageUrl">Image URL</label>{" "}
-                                <input type="text" id="imageUrl" name="imageUrl" placeholder="Enter image URL" />
-                            </div>
+                            <ImageUpload id="imageUrl" name="imageUrl" label="Event Image" folder="events" groupClassName="form-group" />
                             {/* EMAIL */}
                             <div className="form-group">
                                 <label htmlFor="contactEmail">Contact Email</label>{" "}

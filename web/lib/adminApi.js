@@ -28,3 +28,43 @@ export async function sendForm(url, method, formData, fallbackMessage) {
 export function fileName(filePath) {
     return filePath ? String(filePath).split(/[\\/]/).pop() : "";
 }
+
+// Upload a picture for an event, expo, news article or partnership and return
+// its lasting URL. With Supabase the browser uploads it straight to the public
+// bucket using a one-time link; otherwise the file is sent to the app.
+// `folder` is one of: events, expos, news, partnerships.
+export async function uploadImage(file, folder) {
+    const sign = await sendJson(
+        "/api/uploads/image",
+        "POST",
+        { folder, type: file.type, size: file.size },
+        "Could not prepare the image upload."
+    );
+    if (sign.direct) {
+        const upload = await fetch(sign.signedUrl, {
+            method: "PUT",
+            headers: { "Content-Type": file.type },
+            body: file
+        });
+        if (!upload.ok) throw new Error(`Could not upload ${file.name}. Please try again.`);
+        return sign.url;
+    }
+
+    const formData = new FormData();
+    formData.append("folder", folder);
+    formData.append("file", file);
+    const result = await sendForm("/api/uploads/image", "POST", formData, "Could not upload the image.");
+    return result.url;
+}
+
+// Throw away an image uploaded in a form but never saved. Best effort: the
+// server only deletes it if no record uses it.
+export function discardImage(url) {
+    fetch("/api/uploads/image", {
+        method: "DELETE",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url }),
+        keepalive: true
+    }).catch(() => {});
+}

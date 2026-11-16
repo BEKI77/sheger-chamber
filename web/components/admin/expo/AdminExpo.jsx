@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAdminSession } from "@/lib/adminSession";
 import { useApiList } from "@/lib/useApiList";
 import { sendJson } from "@/lib/adminApi";
+import ImageUpload from "@/components/admin/ImageUpload";
 import { dateInputValue, fillFields, readFields } from "@/lib/forms";
 import ExpoAdminCard from "./ExpoAdminCard";
 
@@ -178,15 +179,13 @@ export default function AdminExpo() {
                                     <input type="text" id="expoPhone" name="contact_phone" placeholder="0912345678" />
                                 </div>
                                 {/* IMAGE URL */}
-                                <div className="admin-form-group admin-form-full">
-                                    <label htmlFor="expoImage">Image URL</label>{" "}
-                                    <input
-                                        type="url"
-                                        id="expoImage"
-                                        name="image_url"
-                                        placeholder="https://example.com/expo-image.jpg"
-                                    />
-                                </div>
+                                <ImageUpload
+                                    id="expoImage"
+                                    name="image_url"
+                                    label="Expo Image"
+                                    folder="expos"
+                                    groupClassName="admin-form-group admin-form-full"
+                                />
                                 {/* DESCRIPTION */}
                                 <div className="admin-form-group admin-form-full">
                                     <label htmlFor="expoDescription">Description</label>{" "}
