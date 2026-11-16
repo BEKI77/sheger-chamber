@@ -16,6 +16,7 @@ const FIELDS = {
     location: "expoLocation",
     start_date: "expoStartDate",
     end_date: "expoEndDate",
+    registration_date: "expoRegistrationDate",
     contact_email: "expoEmail",
     contact_phone: "expoPhone",
     status: "expoStatus"
@@ -26,6 +27,9 @@ export default function AdminExpo() {
     const expos = useApiList("/api/expos", "expos");
     // The same form creates new expos and edits existing ones
     const [editingId, setEditingId] = useState(null);
+    // Selected expo type: the registration date is required only for International Expos
+    const [expoType, setExpoType] = useState("");
+    const registrationRequired = expoType === "International Expo";
     const reload = () => expos.reload({ showLoading: true });
 
     async function handleSubmit(event) {
@@ -59,12 +63,14 @@ export default function AdminExpo() {
                 expoStatus: item.status || "Upcoming",
                 expoStartDate: dateInputValue(item.start_date),
                 expoEndDate: dateInputValue(item.end_date),
+                expoRegistrationDate: dateInputValue(item.registration_date),
                 expoEmail: item.contact_email,
                 expoPhone: item.contact_phone,
                 expoImage: item.image_url,
                 expoDescription: item.description
             });
             setEditingId(item.id);
+            setExpoType(item.type || "");
             form.scrollIntoView({ behavior: "smooth", block: "start" });
         } catch (error) {
             console.error("Expo editing error:", error);
@@ -110,7 +116,10 @@ export default function AdminExpo() {
                             id="expoForm"
                             className="admin-form"
                             onSubmit={handleSubmit}
-                            onReset={() => setEditingId(null)}
+                            onReset={() => {
+                                setEditingId(null);
+                                setExpoType("");
+                            }}
                         >
                             <div className="admin-form-grid">
                                 {/* TITLE */}
@@ -127,7 +136,12 @@ export default function AdminExpo() {
                                 {/* TYPE */}
                                 <div className="admin-form-group">
                                     <label htmlFor="expoType">Expo Type</label>{" "}
-                                    <select id="expoType" name="type" required>
+                                    <select
+                                        id="expoType"
+                                        name="type"
+                                        required
+                                        onChange={(event) => setExpoType(event.target.value)}
+                                    >
                                         <option value="">Select Expo Type</option>
                                         <option value="National Expo">National Expo</option>
                                         <option value="International Expo">International Expo</option>
@@ -162,6 +176,18 @@ export default function AdminExpo() {
                                 <div className="admin-form-group">
                                     <label htmlFor="expoEndDate">End Date</label>{" "}
                                     <input type="date" id="expoEndDate" name="end_date" />
+                                </div>
+                                {/* REGISTRATION DATE (required for International, optional for National) */}
+                                <div className="admin-form-group">
+                                    <label htmlFor="expoRegistrationDate">
+                                        Registration Date{registrationRequired ? "" : " (optional)"}
+                                    </label>{" "}
+                                    <input
+                                        type="date"
+                                        id="expoRegistrationDate"
+                                        name="registration_date"
+                                        required={registrationRequired}
+                                    />
                                 </div>
                                 {/* CONTACT EMAIL */}
                                 <div className="admin-form-group">

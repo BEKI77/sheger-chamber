@@ -76,6 +76,8 @@ export const expos = pgTable("expos", {
     location: varchar("location", { length: 255 }),
     start_date: dateColumn("start_date"),
     end_date: dateColumn("end_date"),
+    // Required for International Expos, optional for National ones (checked in expoValues)
+    registration_date: dateColumn("registration_date"),
     contact_email: varchar("contact_email", { length: 150 }),
     contact_phone: varchar("contact_phone", { length: 50 }),
     status: varchar("status", { length: 30 }).default("Upcoming"),

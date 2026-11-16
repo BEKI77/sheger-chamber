@@ -19,7 +19,7 @@ export const PUT = route(async (request, context) => {
     await requireAdmin();
     const id = await idParam(context);
     const values = expoValues(await readJson(request));
-    if (!values) return fail(400, "Title, type and description are required");
+    if (!values) return fail(400, "Title, type and description are required (plus a registration date for International Expos)");
     // The old image, to delete once the record no longer uses it
     const [old] = id ? await db.select({ url: expos.image_url }).from(expos).where(eq(expos.id, id)) : [];
     if (!old) return fail(404, NOT_FOUND);

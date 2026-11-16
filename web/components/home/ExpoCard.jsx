@@ -6,6 +6,9 @@ export default function ExpoCard({ expo }) {
     const startDate = expo.start_date ? new Date(expo.start_date).toLocaleDateString() : "";
     const endDate = expo.end_date ? new Date(expo.end_date).toLocaleDateString() : "";
     const dateText = startDate && endDate ? `${startDate} - ${endDate}` : startDate;
+    const registrationDate = expo.registration_date
+        ? new Date(expo.registration_date).toLocaleDateString()
+        : "";
 
     return (
         <article className="expo-card">
@@ -30,6 +33,9 @@ export default function ExpoCard({ expo }) {
                         <ExpoFeature icon="fa-solid fa-location-dot" title="Location" text={expo.location} />
                     )}
                     {dateText && <ExpoFeature icon="fa-regular fa-calendar" title="Expo Dates" text={dateText} />}
+                    {registrationDate && (
+                        <ExpoFeature icon="fa-regular fa-calendar-check" title="Registration Date" text={registrationDate} />
+                    )}
                     {expo.contact_email && (
                         <ExpoFeature icon="fa-regular fa-envelope" title="Contact" text={expo.contact_email} />
                     )}
