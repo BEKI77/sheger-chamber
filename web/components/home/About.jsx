@@ -1,3 +1,15 @@
+const BOARD_MEMBERS = [
+    { name: "Eng. Tadese Adunga", image: "tadese-adunga.jpg" },
+    { name: "Mr. Calchisa Ebisa", image: "calchisa-ebisa.jpg" },
+    { name: "Mr. Dereje Getachow", image: "dereje-getachow.jpg" },
+    { name: "Mr. Eshetu Tesfaye", image: "eshetu-tesfaye.jpg" },
+    { name: "Mr. Sentayew Reta", image: "sentayew-reta.jpg" },
+    { name: "Mr. Shifera Degaga", image: "shifera-degaga.jpg" },
+    { name: "Mr. Solomon Zawude", image: "solomon-zawude.jpg" },
+    { name: "Mr. Tsegaye Debele", image: "tsegaye-debele.jpg" },
+    { name: "Ms. Almaz Regasa", image: "almaz-regasa.jpg" }
+];
+
 export default function About() {
     return (
         <>
@@ -57,6 +69,26 @@ export default function About() {
                                     <p>Vice President</p>
                                 </div>
                             </div>
+                        </div>
+
+                        <h3 className="board-heading">Board Members</h3>
+                        <div className="board-grid">
+                            {BOARD_MEMBERS.map((member) => (
+                                <div className="leader-card board-card" key={member.image}>
+                                    <div className="leader-image-wrapper board-image-wrapper">
+                                        <img
+                                            src={`/assets/images/board/${member.image}`}
+                                            alt={`${member.name}, Board Member of Shagar Chamber`}
+                                            className="leader-image"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                    <div className="leader-info">
+                                        <h4>{member.name}</h4>
+                                        <p>Board Member</p>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                     <div className="about-highlights">
